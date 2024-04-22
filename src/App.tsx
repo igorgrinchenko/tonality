@@ -154,7 +154,7 @@ const App: React.FC = () => {
 
             <ErrorBoundary errorBoundary={errorBoundary} errorMessage={ERROR_BOUNDARY_MESSAGE} buttonText={RELOAD} theme={theme}>
                 <Box className={app} sx={inlineStyles}>
-                    {!checkIsLandscapeOrientation() && !checkIsPWA() && (
+                    {!checkIsLandscapeOrientation() && checkIsPWA() && (
                         <Router>
                             <Container maxWidth="sm">
                                 <Header />
