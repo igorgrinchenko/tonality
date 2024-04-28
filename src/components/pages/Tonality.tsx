@@ -242,11 +242,22 @@ const Tonality: React.FC = () => {
         tonicIndex = (tonicIndex + circleOfFifths.length) % circleOfFifths.length;
 
         const selectedNote = circleOfFifths[tonicIndex];
-        const result = selectedNote.enharmonic
-            ? mode === "minor"
-                ? `${selectedNote.note}m/${selectedNote.enharmonic}m`
-                : `${selectedNote.note}/${selectedNote.enharmonic}`
-            : selectedNote.note;
+
+        let result = "";
+
+        if (selectedNote.enharmonic) {
+            if (mode === "minor") {
+                result = `${selectedNote.note}m/${selectedNote.enharmonic}m`;
+            } else {
+                result = `${selectedNote.note}/${selectedNote.enharmonic}`;
+            }
+        } else {
+            if (mode === "minor") {
+                result = `${selectedNote.note}m`;
+            } else {
+                result = `${selectedNote.note}`;
+            }
+        }
 
         Object.keys(audioPaths).forEach((path, index) => {
             if (result === path) {

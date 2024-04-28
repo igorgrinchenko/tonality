@@ -40,7 +40,7 @@ const User: React.FC = () => {
 
     const openChatWithDeveloper = () => window.open(URLs.telegram);
 
-    const developer = "Developed by Dexter © 2024";
+    const developer = "Developed by Ihor Hrinchenko © 2024";
 
     const logOutHandler = () => dispatch(logOut());
 
