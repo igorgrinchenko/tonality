@@ -7,6 +7,7 @@ import en from "../../src/translations/en";
 import ua from "../../src/translations/ua";
 import { URLs } from "../../src/common/enums";
 import version from "../../src/app_version.json";
+import InstallProvider from "../../src/pwa/InstallProvider";
 
 const { state, dispatchMock, setPreferencesMock, setUserDataMock, logOutMock, decodeBase64Mock } = vi.hoisted(() => ({
     state: {
@@ -124,7 +125,11 @@ describe("appearance and language preferences", () => {
 describe("profile page", () => {
     it("shows the account, verification, support link and app version, and dispatches logout", async () => {
         const interaction = userEvent.setup();
-        render(<User />);
+        render(
+            <InstallProvider>
+                <User />
+            </InstallProvider>
+        );
 
         expect(screen.getByRole("heading", { name: en.PROFILE_TITLE, level: 1 })).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: state.profile.email })).toBeInTheDocument();
@@ -143,7 +148,11 @@ describe("profile page", () => {
     it("shows an unverified account accurately and prevents duplicate logout while loading", () => {
         state.profile.isVerified = false;
         state.loading = true;
-        render(<User />);
+        render(
+            <InstallProvider>
+                <User />
+            </InstallProvider>
+        );
 
         expect(screen.getByText(en.UNVERIFIED_EMAIL)).toBeInTheDocument();
         expect(screen.queryByText(en.VERIFIED_EMAIL)).not.toBeInTheDocument();

@@ -1,0 +1,173 @@
+.install-promotion {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    margin-top: 24px;
+    padding: 20px;
+    gap: 16px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--accent-soft);
+    scroll-margin-block-end: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 28px);
+}
+
+.install-copy {
+    min-width: 0;
+    flex: 1;
+}
+
+.install-copy h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+}
+
+.install-copy p {
+    margin: 6px 0 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.install-actions {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.install-profile {
+    display: flex;
+    min-width: 0;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.install-profile > .MuiButton-root {
+    flex-shrink: 0;
+}
+
+.install-dialog .MuiDialogTitle-root {
+    position: relative;
+    padding-right: 72px;
+}
+
+.install-close.MuiIconButton-root {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.install-platforms.MuiToggleButtonGroup-root {
+    margin-top: 20px;
+}
+
+.install-platforms .MuiToggleButton-root {
+    min-width: 0;
+    flex: 1;
+    padding-inline: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.install-steps {
+    display: grid;
+    margin: 24px 0;
+    padding: 0;
+    gap: 20px;
+    list-style: none;
+}
+
+.install-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.install-steps li > span {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.install-steps p {
+    min-width: 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
+
+.install-note {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+    .install-promotion {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .install-actions {
+        width: 100%;
+    }
+
+    .install-actions > .MuiButton-root {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .install-profile {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
+
+@media (max-height: 480px) {
+    .install-dialog .MuiDialogTitle-root {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        font-size: 18px;
+    }
+
+    .install-close.MuiIconButton-root {
+        top: 4px;
+    }
+
+    .install-dialog .MuiDialogContent-root > p:first-child {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 13px;
+    }
+
+    .install-platforms.MuiToggleButtonGroup-root {
+        margin-top: 8px;
+    }
+
+    .install-steps {
+        margin-block: 16px;
+        gap: 12px;
+    }
+
+    .install-steps p {
+        font-size: 13px;
+        line-height: 1.65;
+    }
+
+    .install-dialog .MuiDialogActions-root {
+        padding-top: 8px;
+        padding-bottom: 16px;
+    }
+}

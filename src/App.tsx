@@ -17,6 +17,8 @@ import Auth from "./components/auth/Auth";
 import Toast from "./components/Toast";
 import PrivateRoute from "./routes/PrivateRoute";
 import ErrorBoundary from "./components/ErrorBoundary";
+import InstallDialog, { InstallPromotion } from "./components/InstallApp";
+import InstallProvider from "./pwa/InstallProvider";
 import { defaultPath, tonalityPath, tunePath, presetsPath, userPath, authPath, signUpPath, signInPath, verifyEmailPath } from "./routes/routes";
 import { AppDispatch, isLoading, isSignedIn, user } from "./redux/store";
 import { setIsSignedIn } from "./redux/slice";
@@ -29,7 +31,7 @@ const App: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const _isLoading: boolean = useSelector(isLoading);
     const signedIn = useSelector(isSignedIn);
-    const { theme, language } = useSelector(user);
+    const { theme, language, presets } = useSelector(user);
     const appTheme = useMemo(() => createAppTheme(theme), [theme]);
 
     const lang = getTranslations(language);
@@ -111,42 +113,46 @@ const App: React.FC = () => {
         <ThemeProvider theme={appTheme}>
             <CssBaseline />
             <ErrorBoundary errorMessage={ERROR_BOUNDARY_MESSAGE} buttonText={RELOAD}>
-                <div className={`app ${signedIn ? "app--signed" : "app--public"}`}>
-                    <Router>
-                        <div className="app-shell" inert={_isLoading}>
-                            <a className="skip-link" href="#main-content">
-                                {lang.SKIP_TO_CONTENT}
-                            </a>
-                            <Header />
-                            <main id="main-content" tabIndex={-1} className="main-content" aria-busy={_isLoading}>
-                                <Routes>
-                                    <Route
-                                        path={defaultPath}
-                                        element={
-                                            new URLSearchParams(window.location.search).get("verified") === "1" || localStorage.getItem("pendingVerificationEmail") ? (
-                                                <VerifyEmail />
-                                            ) : (
-                                                <Auth />
-                                            )
-                                        }
-                                    />
-                                    <Route path={authPath} element={<Auth />} />
-                                    <Route path={signUpPath} element={<SignUp />} />
-                                    <Route path={signInPath} element={<SignIn />} />
-                                    <Route path={verifyEmailPath} element={<VerifyEmail />} />
-                                    <Route path={tonalityPath} element={<PrivateRoute routeElement={<Tonality />} />} />
-                                    <Route path={tunePath} element={<PrivateRoute routeElement={<Tune />} />} />
-                                    <Route path={presetsPath} element={<PrivateRoute routeElement={<Presets />} />} />
-                                    <Route path={userPath} element={<PrivateRoute routeElement={<User />} />} />
-                                    <Route path="*" element={<Auth />} />
-                                </Routes>
-                            </main>
-                            <Footer />
-                        </div>
-                        <Toast />
-                        {_isLoading && <Loader />}
-                    </Router>
-                </div>
+                <InstallProvider>
+                    <div className={`app ${signedIn ? "app--signed" : "app--public"}`}>
+                        <Router>
+                            <div className="app-shell" inert={_isLoading}>
+                                <a className="skip-link" href="#main-content">
+                                    {lang.SKIP_TO_CONTENT}
+                                </a>
+                                <Header />
+                                <main id="main-content" tabIndex={-1} className="main-content" aria-busy={_isLoading}>
+                                    <Routes>
+                                        <Route
+                                            path={defaultPath}
+                                            element={
+                                                new URLSearchParams(window.location.search).get("verified") === "1" || localStorage.getItem("pendingVerificationEmail") ? (
+                                                    <VerifyEmail />
+                                                ) : (
+                                                    <Auth />
+                                                )
+                                            }
+                                        />
+                                        <Route path={authPath} element={<Auth />} />
+                                        <Route path={signUpPath} element={<SignUp />} />
+                                        <Route path={signInPath} element={<SignIn />} />
+                                        <Route path={verifyEmailPath} element={<VerifyEmail />} />
+                                        <Route path={tonalityPath} element={<PrivateRoute routeElement={<Tonality />} />} />
+                                        <Route path={tunePath} element={<PrivateRoute routeElement={<Tune />} />} />
+                                        <Route path={presetsPath} element={<PrivateRoute routeElement={<Presets />} />} />
+                                        <Route path={userPath} element={<PrivateRoute routeElement={<User />} />} />
+                                        <Route path="*" element={<Auth />} />
+                                    </Routes>
+                                    <InstallPromotion eligible={signedIn && (presets?.length ?? 0) > 0} disabled={_isLoading} />
+                                </main>
+                                <Footer />
+                            </div>
+                            <Toast />
+                            <InstallDialog />
+                            {_isLoading && <Loader />}
+                        </Router>
+                    </div>
+                </InstallProvider>
             </ErrorBoundary>
         </ThemeProvider>
     );

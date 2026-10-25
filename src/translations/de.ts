@@ -139,6 +139,26 @@ const de: Translations = {
     AUTH_INVALID_EMAIL: "Gib eine gültige E-Mail-Adresse ein.",
     REQUEST_LIMITED: "Zu viele Versuche. Warte einen Moment und versuche es erneut.",
     NETWORK_ERROR: "Die Verbindung ist fehlgeschlagen. Prüfe deine Internetverbindung und versuche es erneut.",
+    INSTALL_APP: "Tonality installieren",
+    INSTALL_TITLE: "Tonality immer griffbereit.",
+    INSTALL_DESCRIPTION: "Öffne Tonality mit einem Tippen in einem eigenen Fenster.",
+    INSTALL_LATER: "Vielleicht später",
+    INSTALL_HELP_DESCRIPTION: "Füge Tonality zum Home-Bildschirm oder Desktop hinzu. Wähle dein Gerät für die Anleitung.",
+    INSTALL_MANUAL_FALLBACK: "Das Installationsfenster konnte nicht geöffnet werden. Versuche es mit den Schritten unten.",
+    INSTALL_DEVICE: "Gerät",
+    INSTALL_DESKTOP: "Computer",
+    INSTALL_ANDROID_STEP_1: "Öffne diese Seite in Chrome auf deinem Android-Gerät.",
+    INSTALL_ANDROID_STEP_2: "Öffne das ⋮-Menü und wähle App installieren oder Installieren und Verknüpfung erstellen. Manche Versionen nennen es Zum Startbildschirm hinzufügen.",
+    INSTALL_ANDROID_STEP_3: "Wähle Installieren und bestätige. Wenn nur eine Verknüpfung angeboten wird, kann sie sich im Browser öffnen.",
+    INSTALL_IOS_STEP_1: "Öffne diese Seite in Safari auf deinem iPhone oder iPad.",
+    INSTALL_IOS_STEP_2: "Tippe auf Teilen und dann auf Zum Home-Bildschirm.",
+    INSTALL_IOS_STEP_3: "Lass Als Web-App öffnen aktiviert, falls die Option angezeigt wird, und tippe auf Hinzufügen.",
+    INSTALL_DESKTOP_STEP_1: "Öffne diese Seite in Chrome oder Edge. Safari auf dem Mac unterstützt ebenfalls Web-Apps.",
+    INSTALL_DESKTOP_STEP_2: "Wähle in Chrome oder Edge das Installationssymbol in der Adressleiste oder die App-Installation im Browsermenü.",
+    INSTALL_DESKTOP_STEP_3: "Wähle in Safari auf dem Mac Teilen → Zum Dock hinzufügen und dann Hinzufügen.",
+    INSTALL_BROWSER_NOTE:
+        "Menünamen unterscheiden sich je nach Browser. Falls keine Installation angeboten wird, versuche den empfohlenen Browser. Du kannst Tonality weiterhin hier nutzen.",
+    INSTALL_DONE: "Verstanden",
 };
 
 export default de;

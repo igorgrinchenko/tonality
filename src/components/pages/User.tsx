@@ -9,6 +9,7 @@ import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import PageHeading from "../PageHeading";
 import RadioButtonsGroup from "../Radio";
+import { InstallAppSection } from "../InstallApp";
 import { AppDispatch, isLoading, user } from "../../redux/store";
 import { logOut } from "../../redux/thunks";
 import { URLs } from "../../common/enums";
@@ -54,6 +55,7 @@ const User: React.FC = () => {
                     </div>
                     <RadioButtonsGroup theme={theme} language={language} isVerified={isVerified} />
                 </section>
+                <InstallAppSection disabled={busy} />
                 <section className="surface-card profile-support" aria-labelledby="support-title">
                     <div className="section-header">
                         <span className="icon-tile">

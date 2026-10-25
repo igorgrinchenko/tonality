@@ -152,4 +152,23 @@ export interface Translations {
     AUTH_INVALID_EMAIL: string;
     REQUEST_LIMITED: string;
     NETWORK_ERROR: string;
+    INSTALL_APP: string;
+    INSTALL_TITLE: string;
+    INSTALL_DESCRIPTION: string;
+    INSTALL_LATER: string;
+    INSTALL_HELP_DESCRIPTION: string;
+    INSTALL_MANUAL_FALLBACK: string;
+    INSTALL_DEVICE: string;
+    INSTALL_DESKTOP: string;
+    INSTALL_ANDROID_STEP_1: string;
+    INSTALL_ANDROID_STEP_2: string;
+    INSTALL_ANDROID_STEP_3: string;
+    INSTALL_IOS_STEP_1: string;
+    INSTALL_IOS_STEP_2: string;
+    INSTALL_IOS_STEP_3: string;
+    INSTALL_DESKTOP_STEP_1: string;
+    INSTALL_DESKTOP_STEP_2: string;
+    INSTALL_DESKTOP_STEP_3: string;
+    INSTALL_BROWSER_NOTE: string;
+    INSTALL_DONE: string;
 }
