@@ -35,8 +35,8 @@ body,
 
 body {
     margin: 0;
-    background: var(--bg, #f7f8fc);
-    color: var(--text, #25253b);
+    background: var(--bg, #11121c);
+    color: var(--text, #f2f1fa);
     font-family:
         "Inter",
         -apple-system,

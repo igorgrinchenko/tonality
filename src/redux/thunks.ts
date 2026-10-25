@@ -52,7 +52,7 @@ export const signIn = createAsyncThunk<SignInResult, AuthCredentials>("user/sign
         if (settingsSnapshot.exists()) {
             await setDoc(settingsRef, { isVerified: true, language: normalizeLanguage(settingsSnapshot.data()?.language ?? language) }, { merge: true });
         } else {
-            const theme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
+            const theme = localStorage.getItem("theme") === "light" ? "light" : "dark";
             await setDoc(settingsRef, { theme, language: normalizeLanguage(language), isVerified: true, presets: [] }, { merge: true });
         }
 
@@ -114,7 +114,7 @@ export const getUserData = createAsyncThunk<UserSettings, IUId>("users/getUserDa
 
         const userData = docSnap.data();
         const language = normalizeLanguage(userData?.language);
-        const theme = userData?.theme === "dark" ? "dark" : "light";
+        const theme = userData?.theme === "light" ? "light" : "dark";
         localStorage.setItem("language", language);
         localStorage.setItem("theme", theme);
         if (userData && userData.language !== language) {

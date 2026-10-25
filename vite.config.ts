@@ -15,8 +15,8 @@ export default defineConfig({
                 start_url: "./",
                 scope: "./",
                 display: "standalone",
-                theme_color: "#f7f8fc",
-                background_color: "#f7f8fc",
+                theme_color: "#11121c",
+                background_color: "#11121c",
                 icons: [
                     { src: "favicon.webp", sizes: "192x192", type: "image/webp" },
                     { src: "favicon.webp", sizes: "512x512", type: "image/webp" },

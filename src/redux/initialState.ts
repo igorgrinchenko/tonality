@@ -5,7 +5,7 @@ const STORAGE_tokenExpTime: string | null = localStorage.getItem("tokenExpTime")
 const STORAGE_userEmail: string | null = localStorage.getItem("userEmail");
 const STORAGE_language: string | null = localStorage.getItem("language");
 const initialLanguage = normalizeLanguage(STORAGE_language);
-const initialTheme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
+const initialTheme = localStorage.getItem("theme") === "light" ? "light" : "dark";
 
 if (STORAGE_language !== initialLanguage) {
     localStorage.setItem("language", initialLanguage);
