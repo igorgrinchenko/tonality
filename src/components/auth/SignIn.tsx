@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { signIn } from "../../redux/thunks";
 import { isSignedIn, AppDispatch } from "../../redux/store";
 // MUI
@@ -64,14 +64,16 @@ const SignIn: React.FC = () => {
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required={true}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    ),
+                slotProps={{
+                    input: {
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    },
                 }}
             />
             <Button type="submit" className={button} variant="contained">

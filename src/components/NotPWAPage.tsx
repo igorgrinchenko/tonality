@@ -19,10 +19,10 @@ const NotPWAPage: React.FC = () => {
 
     return (
         <Box className={notPWAPageWrapper}>
-            <Typography variant="h6" textAlign="center">
+            <Typography variant="h6" sx={{ textAlign: "center" }}>
                 {en}
             </Typography>
-            <Typography variant="h6" textAlign="center">
+            <Typography variant="h6" sx={{ textAlign: "center" }}>
                 {uk}
             </Typography>
             <Accordion>

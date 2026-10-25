@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { Helmet } from "react-helmet";
 // MUI
 import { Box, Container } from "@mui/material";
 // Components
@@ -64,7 +63,16 @@ const App: React.FC = () => {
 
     useEffect(() => setOrientationStatus(), []);
 
-    useEffect(() => window.addEventListener("orientationchange", setOrientationStatus), [orientation]);
+    useEffect(() => {
+        const handleOrientationChange = () => setOrientationStatus();
+        window.addEventListener("orientationchange", handleOrientationChange);
+        window.screen.orientation?.addEventListener("change", handleOrientationChange);
+
+        return () => {
+            window.removeEventListener("orientationchange", handleOrientationChange);
+            window.screen.orientation?.removeEventListener("change", handleOrientationChange);
+        };
+    }, []);
 
     const checkTokenExpTime = (): void => {
         const tokenExpTime: number = Number(localStorage.getItem("tokenExpTime"));
@@ -77,12 +85,10 @@ const App: React.FC = () => {
         }
     };
 
-    const setOrientationStatus = () => {
-        if (window.orientation === 0 || window.orientation === 180) {
-            setOrientation("portrait");
-        } else {
-            setOrientation("landscape");
-        }
+    const setOrientationStatus = (): void => {
+        const orientationType = window.screen.orientation?.type;
+        const isPortrait = orientationType ? orientationType.startsWith("portrait") : window.innerHeight >= window.innerWidth;
+        setOrientation(isPortrait ? "portrait" : "landscape");
     };
 
     const checkIsLandscapeOrientation = () => {
@@ -94,6 +100,10 @@ const App: React.FC = () => {
     };
 
     const checkIsPWA = () => {
+        if (import.meta.env.DEV) {
+            return false;
+        }
+
         interface NavigatorExtended extends Navigator {
             standalone?: boolean;
         }
@@ -138,50 +148,35 @@ const App: React.FC = () => {
     };
 
     return (
-        <>
-            <Helmet>
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta name="theme-color" content="#101418" />
-                <meta name="description" content="Web site for determining tones" />
-                <meta name="keywords" content="tonality, music" />
-                <meta name="robots" content="noindex, nofollow" />
-                <meta name="apple-mobile-web-app-capable" content="yes" />
-                <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-                <meta name="apple-mobile-web-app-title" content="Tonality Finder" />
-                <link rel="apple-touch-icon" href="../public/favicon.webp" />
-                <link rel="manifest" href="../public/manifest.json" />
-            </Helmet>
-
-            <ErrorBoundary errorBoundary={errorBoundary} errorMessage={ERROR_BOUNDARY_MESSAGE} buttonText={RELOAD} theme={theme}>
-                <Box className={app} sx={inlineStyles}>
-                    {!checkIsLandscapeOrientation() && !checkIsPWA() && (
-                        <Router>
-                            <Container maxWidth="sm">
-                                <Header />
-                            </Container>
-                            <Container maxWidth="sm" className={container}>
-                                {_isLoading && <Loader />}
-                                <Toast />
-                                <Routes>
-                                    <Route path={defaultPath} element={<Auth />} />
-                                    <Route path={authPath} element={<Auth />} />
-                                    <Route path={signUpPath} element={<SignUp />} />
-                                    <Route path={signInPath} element={<SignIn />} />
-                                    <Route path={tonalityPath} element={<PrivateRoute routeElement={<Tonality />} />} />
-                                    <Route path={tunePath} element={<PrivateRoute routeElement={<Tune />} />} />
-                                    <Route path={presetsPath} element={<PrivateRoute routeElement={<Presets />} />} />
-                                    <Route path={userPath} element={<PrivateRoute routeElement={<User />} />} />
-                                </Routes>
-                            </Container>
-                            <Container className={footerContainer} maxWidth="sm" sx={inlineStylesFooterContainer}>
-                                <Footer />
-                            </Container>
-                        </Router>
-                    )}
-                    {warningPageRender()}
-                </Box>
-            </ErrorBoundary>
-        </>
+        <ErrorBoundary errorBoundary={errorBoundary} errorMessage={ERROR_BOUNDARY_MESSAGE} buttonText={RELOAD} theme={theme}>
+            <Box className={app} sx={inlineStyles}>
+                {!checkIsLandscapeOrientation() && !checkIsPWA() && (
+                    <Router>
+                        <Container maxWidth="sm">
+                            <Header />
+                        </Container>
+                        <Container maxWidth="sm" className={container}>
+                            {_isLoading && <Loader />}
+                            <Toast />
+                            <Routes>
+                                <Route path={defaultPath} element={<Auth />} />
+                                <Route path={authPath} element={<Auth />} />
+                                <Route path={signUpPath} element={<SignUp />} />
+                                <Route path={signInPath} element={<SignIn />} />
+                                <Route path={tonalityPath} element={<PrivateRoute routeElement={<Tonality />} />} />
+                                <Route path={tunePath} element={<PrivateRoute routeElement={<Tune />} />} />
+                                <Route path={presetsPath} element={<PrivateRoute routeElement={<Presets />} />} />
+                                <Route path={userPath} element={<PrivateRoute routeElement={<User />} />} />
+                            </Routes>
+                        </Container>
+                        <Container className={footerContainer} maxWidth="sm" sx={inlineStylesFooterContainer}>
+                            <Footer />
+                        </Container>
+                    </Router>
+                )}
+                {warningPageRender()}
+            </Box>
+        </ErrorBoundary>
     );
 };
 

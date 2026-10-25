@@ -41,7 +41,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                     className={this.props.errorBoundary}
                     sx={this.props.theme === "dark" ? { color: lightTheme, backgroundColor: darkTheme } : { color: darkTheme, backgroundColor: lightTheme }}
                 >
-                    <Typography variant="h6" textAlign="center">
+                    <Typography variant="h6" sx={{ textAlign: "center" }}>
                         {this.props.errorMessage}
                     </Typography>
                     <br />

@@ -65,17 +65,13 @@ const Presets: React.FC = () => {
             <List className={presetsList}>
                 {presets.map((preset, index) => (
                     <ListItem className={presetListItem} key={`preset_${index}`}>
-                        <Typography textAlign="left" sx={{ width: "33%" }}>
-                            {preset.presetName}
-                        </Typography>
-                        <Typography textAlign="center" sx={{ width: "33%" }}>
-                            {preset.presetValue}
-                        </Typography>
-                        <Typography textAlign="center" sx={{ width: "34%" }} onClick={() => handlePlay(preset, index)}>
+                        <Typography sx={{ width: "33%", textAlign: "left" }}>{preset.presetName}</Typography>
+                        <Typography sx={{ width: "33%", textAlign: "center" }}>{preset.presetValue}</Typography>
+                        <Typography sx={{ width: "34%", textAlign: "center" }} onClick={() => handlePlay(preset, index)}>
                             {activeIndex === index ? <StopCircleIcon fontSize="large" /> : <PlayCircleIcon fontSize="large" />}
                         </Typography>
                         <audio loop ref={audioRef} />
-                        <Typography textAlign="right">
+                        <Typography sx={{ textAlign: "right" }}>
                             <DeleteIcon sx={{ color: error }} fontSize="large" color="error" onClick={(event) => handleOpenModal(event, preset)} />
                         </Typography>
                     </ListItem>
@@ -89,7 +85,7 @@ const Presets: React.FC = () => {
                         backgroundColor: theme === "dark" ? darkTheme : lightTheme,
                     }}
                 >
-                    <Typography textAlign="center">
+                    <Typography sx={{ textAlign: "center" }}>
                         {DELETE_PRESET_CONFIRM_TEXT} &quot;{presetName}&quot; ?
                     </Typography>
                     <Button fullWidth onClick={handleDeletePreset} variant="outlined" color="error">

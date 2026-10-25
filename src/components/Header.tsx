@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { useSelector } from "react-redux";
 // MUI
 import { Box, Typography } from "@mui/material";
@@ -63,7 +63,7 @@ const Header: React.FC = () => {
         <Box className={headerWrapper}>
             <Box onClick={returnBackHandler} className={header}>
                 {setHeaderArrow() && <ArrowBackIosIcon />}
-                <Typography textTransform="uppercase" variant="h5">
+                <Typography sx={{ textTransform: "uppercase" }} variant="h5">
                     {setHeaderTitle()}
                 </Typography>
                 {setHeaderArrow() && <Box></Box>}

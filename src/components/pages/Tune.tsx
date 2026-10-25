@@ -69,7 +69,7 @@ const Tune: React.FC = () => {
                 <Typography>on</Typography>
             </Box>
             {isNotAppleDevice() && (
-                <Stack spacing={2} direction="row" sx={{ width: 250 }} alignItems="center">
+                <Stack spacing={2} direction="row" sx={{ width: 250, alignItems: "center" }}>
                     <VolumeDown />
                     <Slider aria-label="Volume" value={volume} onChange={changeVolumeHandler} />
                     <VolumeUp />

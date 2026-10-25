@@ -20,10 +20,15 @@ const Toast: React.FC = () => {
     const setToastType = () => (_isError ? ToastType.error : ToastType.success);
     const setErrorMessage = () => (_isError ? _errorMessage : _successMessage);
 
-    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string): void => {
+    const handleClose = (_event: Event | React.SyntheticEvent<any, Event> | null, reason: string): void => {
         if (reason === "clickaway") {
             return;
         }
+        dispatch(resetError());
+        dispatch(resetSuccess());
+    };
+
+    const handleAlertClose = (): void => {
         dispatch(resetError());
         dispatch(resetSuccess());
     };
@@ -38,7 +43,7 @@ const Toast: React.FC = () => {
             onClose={handleClose}
         >
             <Alert
-                onClose={handleClose}
+                onClose={handleAlertClose}
                 severity={setToastType()}
                 variant="filled"
                 sx={{

@@ -1,0 +1,249 @@
+.app {
+    position: relative;
+    z-index: 0;
+    height: 100vh;
+}
+
+.container,
+.errorBoundary,
+.notPWAPageContainer,
+.landscapeForbiddenContainer {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.container {
+    height: 88vh;
+}
+
+.errorBoundary,
+.landscapeForbiddenContainer {
+    height: 100vh;
+}
+
+.errorBoundary {
+    background-color: #101418;
+    color: #f4f4f4;
+}
+
+.notPWAPageContainer {
+    height: 100vh;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.landscapeForbiddenContainer {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.select {
+    background-color: #f4f4f4 !important;
+}
+
+.button {
+    width: 260px;
+    height: 50px;
+}
+
+.input {
+    width: 260px;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+}
+
+.loader {
+    position: absolute;
+    z-index: 3;
+    width: 100px !important;
+    height: 100px !important;
+    color: #101418;
+}
+
+.blur {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(20px);
+    background-color: rgb(255 255 255 / 30%);
+}
+
+.contactDeveloper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerWrapper {
+    height: 5vh;
+    padding-top: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.footerContainer {
+    position: fixed;
+    min-width: 100%;
+    background-color: #101418;
+}
+
+.footerWrapper {
+    display: flex;
+    height: 7vh;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.authButtonWrapper,
+.signInWrapper,
+.signUpWrapper,
+.tonalityClass,
+.notPWAPageWrapper,
+.landscapeForbiddenWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authButtonWrapper,
+.signInWrapper,
+.signUpWrapper {
+    gap: 10px;
+}
+
+.tonalityClass {
+    width: 100%;
+    max-width: 340px;
+    gap: 30px;
+}
+
+.tonalityWrapper,
+.userWrapper {
+    width: 100%;
+    max-width: 340px;
+    padding: 14px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #f4f4f4;
+}
+
+.tonalityWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tonalitySwitchWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tonalitySwitch {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.tonalityRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tonalityDisabledButton {
+    background-color: #a8a9ab !important;
+}
+
+.userWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.userAvatar {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.userSettings {
+    width: 250px;
+}
+
+.userEmailWrapper {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.forkWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.forkImage {
+    display: block;
+    width: 200px;
+    height: auto;
+}
+
+.forkSwitchWrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.presetsList {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 !important;
+}
+
+.presetListItem {
+    width: 100%;
+    border-radius: 4px;
+    background-color: #2c70cd;
+}
+
+.notPWAPageWrapper,
+.landscapeForbiddenWrapper {
+    gap: 20px;
+}
+
+.accordionDetails {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.accordionImages {
+    display: block;
+    width: 100%;
+    max-width: 350px;
+}
+
+.modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px 20px;
+    transform: translate(-50%, -50%);
+    border-radius: 4px;
+}

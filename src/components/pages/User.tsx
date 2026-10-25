@@ -60,7 +60,7 @@ const User: React.FC = () => {
                 <Button fullWidth variant="outlined" color="error" onClick={logOutHandler}>
                     {LOG_OUT}
                 </Button>
-                <Typography textAlign="left" sx={{ width: "100%" }} variant="subtitle2">
+                <Typography sx={{ width: "100%", textAlign: "left" }} variant="subtitle2">
                     <span className={contactDeveloper}>
                         {CONTACT_THE_DEVELOPER} <TelegramIcon onClick={openChatWithDeveloper} />
                     </span>
