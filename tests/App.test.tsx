@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, render, screen } from "@testing-library/react";
-import App from "./App";
-import en from "./translations/en";
-import ua from "./translations/ua";
-import { createAppTheme } from "./styles/theme";
-import { authPath, signInPath, signUpPath, verifyEmailPath, tonalityPath, tunePath, presetsPath, userPath } from "./routes/routes";
+import App from "../src/App";
+import en from "../src/translations/en";
+import ua from "../src/translations/ua";
+import { createAppTheme } from "../src/styles/theme";
+import { authPath, signInPath, signUpPath, verifyEmailPath, tonalityPath, tunePath, presetsPath, userPath } from "../src/routes/routes";
 
 type SessionUser = { uid: string; emailVerified: boolean };
 
@@ -25,26 +25,26 @@ vi.mock("react-redux", () => ({
     useDispatch: () => dispatchMock,
     useSelector: (selector: (value: typeof state) => unknown) => selector(state),
 }));
-vi.mock("./redux/store", () => ({
+vi.mock("../src/redux/store", () => ({
     user: (value: typeof state) => value.profile,
     isSignedIn: (value: typeof state) => value.signedIn,
     isLoading: (value: typeof state) => value.loading,
 }));
-vi.mock("./redux/slice", () => ({ setIsSignedIn: setIsSignedInMock }));
-vi.mock("./redux/thunks", () => ({ getUserData: getUserDataMock, logOut: logOutMock, decodeBase64: decodeBase64Mock }));
-vi.mock("./firebase", () => ({ auth: {} }));
+vi.mock("../src/redux/slice", () => ({ setIsSignedIn: setIsSignedInMock }));
+vi.mock("../src/redux/thunks", () => ({ getUserData: getUserDataMock, logOut: logOutMock, decodeBase64: decodeBase64Mock }));
+vi.mock("../src/firebase", () => ({ auth: {} }));
 vi.mock("firebase/auth", () => ({ onAuthStateChanged: onAuthStateChangedMock, reload: reloadMock }));
-vi.mock("./components/Header", () => ({ default: () => <header>Application header</header> }));
-vi.mock("./components/Footer", () => ({ default: () => <nav aria-label="Application sections" /> }));
-vi.mock("./components/Toast", () => ({ default: () => null }));
-vi.mock("./components/auth/Auth", () => ({ default: () => <h1>Welcome route</h1> }));
-vi.mock("./components/auth/SignIn", () => ({ default: () => <h1>Sign-in route</h1> }));
-vi.mock("./components/auth/SignUp", () => ({ default: () => <h1>Registration route</h1> }));
-vi.mock("./components/auth/VerifyEmail", () => ({ default: () => <h1>Email verification route</h1> }));
-vi.mock("./components/pages/Tonality", () => ({ default: () => <h1>Key finder route</h1> }));
-vi.mock("./components/pages/Tune", () => ({ default: () => <h1>Tuning fork route</h1> }));
-vi.mock("./components/pages/Presets", () => ({ default: () => <h1>Saved keys route</h1> }));
-vi.mock("./components/pages/User", () => ({ default: () => <h1>Profile route</h1> }));
+vi.mock("../src/components/Header", () => ({ default: () => <header>Application header</header> }));
+vi.mock("../src/components/Footer", () => ({ default: () => <nav aria-label="Application sections" /> }));
+vi.mock("../src/components/Toast", () => ({ default: () => null }));
+vi.mock("../src/components/auth/Auth", () => ({ default: () => <h1>Welcome route</h1> }));
+vi.mock("../src/components/auth/SignIn", () => ({ default: () => <h1>Sign-in route</h1> }));
+vi.mock("../src/components/auth/SignUp", () => ({ default: () => <h1>Registration route</h1> }));
+vi.mock("../src/components/auth/VerifyEmail", () => ({ default: () => <h1>Email verification route</h1> }));
+vi.mock("../src/components/pages/Tonality", () => ({ default: () => <h1>Key finder route</h1> }));
+vi.mock("../src/components/pages/Tune", () => ({ default: () => <h1>Tuning fork route</h1> }));
+vi.mock("../src/components/pages/Presets", () => ({ default: () => <h1>Saved keys route</h1> }));
+vi.mock("../src/components/pages/User", () => ({ default: () => <h1>Profile route</h1> }));
 
 beforeEach(() => {
     vi.clearAllMocks();

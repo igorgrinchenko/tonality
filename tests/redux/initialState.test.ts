@@ -7,7 +7,7 @@ beforeEach(() => {
 
 describe("stored application preferences", () => {
     it("starts signed out with dark appearance and English when this browser has no preferences", async () => {
-        const { initialState } = await import("./initialState");
+        const { initialState } = await import("../../src/redux/initialState");
 
         expect(initialState.user).toMatchObject({ theme: "dark", language: "en", email: "", tokenExpTime: 0, isVerified: false, presets: [] });
         expect(initialState.isSignedIn).toBe(false);
@@ -19,7 +19,7 @@ describe("stored application preferences", () => {
         localStorage.setItem("language", language);
         localStorage.setItem("userEmail", "musician@example.com");
         localStorage.setItem("tokenExpTime", "2000000000000");
-        const { initialState } = await import("./initialState");
+        const { initialState } = await import("../../src/redux/initialState");
 
         expect(initialState.user).toMatchObject({ theme: "light", language, email: "musician@example.com", tokenExpTime: 2000000000000 });
         expect(initialState.isSignedIn).toBe(false);
@@ -30,7 +30,7 @@ describe("stored application preferences", () => {
         localStorage.setItem("theme", "sepia");
         localStorage.setItem("language", "fr");
         localStorage.setItem("tokenExpTime", "not-a-date");
-        const { initialState } = await import("./initialState");
+        const { initialState } = await import("../../src/redux/initialState");
 
         expect(initialState.user).toMatchObject({ theme: "dark", language: "en", tokenExpTime: 0 });
         expect(localStorage.getItem("language")).toBe("en");

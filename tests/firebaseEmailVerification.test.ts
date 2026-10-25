@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { User } from "firebase/auth";
-import { sendVerificationEmail } from "./firebaseEmailVerification";
+import { sendVerificationEmail } from "../src/firebaseEmailVerification";
 
 const { sendEmailVerificationMock } = vi.hoisted(() => ({ sendEmailVerificationMock: vi.fn() }));
 

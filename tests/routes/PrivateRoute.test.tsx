@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router";
-import PrivateRoute from "./PrivateRoute";
-import { authPath, tonalityPath } from "./routes";
+import PrivateRoute from "../../src/routes/PrivateRoute";
+import { authPath, tonalityPath } from "../../src/routes/routes";
 
 const state = vi.hoisted(() => ({ signedIn: false }));
 
@@ -10,7 +10,7 @@ vi.mock("react-redux", () => ({
     useSelector: (selector: (value: typeof state) => unknown) => selector(state),
 }));
 
-vi.mock("../redux/store", () => ({
+vi.mock("../../src/redux/store", () => ({
     isSignedIn: (value: typeof state) => value.signedIn,
 }));
 

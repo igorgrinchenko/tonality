@@ -1,14 +1,14 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Tune from "./Tune";
-import en from "../../translations/en";
+import Tune from "../../../src/components/pages/Tune";
+import en from "../../../src/translations/en";
 
 vi.mock("react-redux", () => ({
     useSelector: (selector: (state: { language: string }) => unknown) => selector({ language: "en" }),
 }));
 
-vi.mock("../../redux/store", () => ({
+vi.mock("../../../src/redux/store", () => ({
     user: (state: { language: string }) => state,
 }));
 

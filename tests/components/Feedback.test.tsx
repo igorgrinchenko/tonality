@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Toast from "./Toast";
-import Loader from "./Loader";
-import ErrorBoundary from "./ErrorBoundary";
-import PageHeading from "./PageHeading";
-import en from "../translations/en";
-import de from "../translations/de";
-import ua from "../translations/ua";
+import Toast from "../../src/components/Toast";
+import Loader from "../../src/components/Loader";
+import ErrorBoundary from "../../src/components/ErrorBoundary";
+import PageHeading from "../../src/components/PageHeading";
+import en from "../../src/translations/en";
+import de from "../../src/translations/de";
+import ua from "../../src/translations/ua";
 
 const { state, dispatchMock, resetErrorMock, resetSuccessMock } = vi.hoisted(() => ({
     state: { profile: { language: "en" }, error: false, success: false, errorText: "Request failed", successText: "Changes saved" },
@@ -21,7 +21,7 @@ vi.mock("react-redux", () => ({
     useSelector: (selector: (value: typeof state) => unknown) => selector(state),
 }));
 
-vi.mock("../redux/store", () => ({
+vi.mock("../../src/redux/store", () => ({
     user: (value: typeof state) => value.profile,
     isError: (value: typeof state) => value.error,
     isSuccess: (value: typeof state) => value.success,
@@ -29,7 +29,7 @@ vi.mock("../redux/store", () => ({
     successMessage: (value: typeof state) => value.successText,
 }));
 
-vi.mock("../redux/slice", () => ({
+vi.mock("../../src/redux/slice", () => ({
     resetError: resetErrorMock,
     resetSuccess: resetSuccessMock,
 }));

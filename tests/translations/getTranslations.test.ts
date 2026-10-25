@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import getTranslations, { getLocaleCode, normalizeLanguage } from "./getTranslations";
-import en from "./en";
-import de from "./de";
-import ua from "./ua";
+import getTranslations, { getLocaleCode, normalizeLanguage } from "../../src/translations/getTranslations";
+import en from "../../src/translations/en";
+import de from "../../src/translations/de";
+import ua from "../../src/translations/ua";
 
 const locales = [
     { language: "en", messages: en },

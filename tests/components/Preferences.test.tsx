@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import RadioButtonsGroup from "./Radio";
-import User from "./pages/User";
-import en from "../translations/en";
-import ua from "../translations/ua";
-import { URLs } from "../common/enums";
-import version from "../app_version.json";
+import RadioButtonsGroup from "../../src/components/Radio";
+import User from "../../src/components/pages/User";
+import en from "../../src/translations/en";
+import ua from "../../src/translations/ua";
+import { URLs } from "../../src/common/enums";
+import version from "../../src/app_version.json";
 
 const { state, dispatchMock, setPreferencesMock, setUserDataMock, logOutMock, decodeBase64Mock } = vi.hoisted(() => ({
     state: {
@@ -30,13 +30,13 @@ vi.mock("react-redux", () => ({
     useSelector: (selector: (value: typeof state) => unknown) => selector(state),
 }));
 
-vi.mock("../redux/store", () => ({
+vi.mock("../../src/redux/store", () => ({
     user: (value: typeof state) => value.profile,
     isLoading: (value: typeof state) => value.loading,
 }));
 
-vi.mock("../redux/slice", () => ({ setPreferences: setPreferencesMock }));
-vi.mock("../redux/thunks", () => ({ setUserData: setUserDataMock, logOut: logOutMock, decodeBase64: decodeBase64Mock }));
+vi.mock("../../src/redux/slice", () => ({ setPreferences: setPreferencesMock }));
+vi.mock("../../src/redux/thunks", () => ({ setUserData: setUserDataMock, logOut: logOutMock, decodeBase64: decodeBase64Mock }));
 
 beforeEach(() => {
     vi.clearAllMocks();

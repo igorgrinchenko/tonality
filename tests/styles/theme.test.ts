@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getContrastRatio } from "@mui/material/styles";
-import { createAppTheme } from "./theme";
+import { createAppTheme } from "../../src/styles/theme";
 
 function styleObject(value: unknown): Record<string, unknown> {
     if (value === null || typeof value !== "object" || Array.isArray(value)) {

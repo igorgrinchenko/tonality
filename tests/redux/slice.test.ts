@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import reducer, { resetError, resetSuccess, setIsSignedIn, setPreferences, setTokenExpTime } from "./slice";
-import { deletePresets, getUserData, logOut, setPresets, setUserData, signIn, signUp } from "./thunks";
-import { AuthCredentials, Presets, UserSettings, UserState } from "./interfaces";
-import getTranslations from "../translations/getTranslations";
+import reducer, { resetError, resetSuccess, setIsSignedIn, setPreferences, setTokenExpTime } from "../../src/redux/slice";
+import { deletePresets, getUserData, logOut, setPresets, setUserData, signIn, signUp } from "../../src/redux/thunks";
+import { AuthCredentials, Presets, UserSettings, UserState } from "../../src/redux/interfaces";
+import getTranslations from "../../src/translations/getTranslations";
 
-vi.mock("../firebase", () => ({ auth: {}, firestore: {} }));
+vi.mock("../../src/firebase", () => ({ auth: {}, firestore: {} }));
 vi.mock("firebase/auth", () => ({ signInWithEmailAndPassword: vi.fn(), createUserWithEmailAndPassword: vi.fn(), signOut: vi.fn(), sendEmailVerification: vi.fn() }));
 vi.mock("firebase/firestore", () => ({ doc: vi.fn(), getDoc: vi.fn(), setDoc: vi.fn() }));
 

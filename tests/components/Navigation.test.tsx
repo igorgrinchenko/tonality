@@ -3,13 +3,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, useLocation } from "react-router";
-import Header from "./Header";
-import Footer from "./Footer";
-import Brand from "./Brand";
-import en from "../translations/en";
-import de from "../translations/de";
-import ua from "../translations/ua";
-import { authPath, signInPath, signUpPath, tonalityPath, tunePath, presetsPath, userPath } from "../routes/routes";
+import Header from "../../src/components/Header";
+import Footer from "../../src/components/Footer";
+import Brand from "../../src/components/Brand";
+import en from "../../src/translations/en";
+import de from "../../src/translations/de";
+import ua from "../../src/translations/ua";
+import { authPath, signInPath, signUpPath, tonalityPath, tunePath, presetsPath, userPath } from "../../src/routes/routes";
 
 const { state, dispatchMock, setPreferencesMock, setUserDataMock, decodeBase64Mock } = vi.hoisted(() => ({
     state: {
@@ -28,15 +28,15 @@ vi.mock("react-redux", () => ({
     useSelector: (selector: (value: typeof state) => unknown) => selector(state),
 }));
 
-vi.mock("../redux/store", () => ({
+vi.mock("../../src/redux/store", () => ({
     user: (value: typeof state) => value.profile,
     isSignedIn: (value: typeof state) => value.signedIn,
     isLoading: (value: typeof state) => value.loading,
 }));
 
-vi.mock("../redux/slice", () => ({ setPreferences: setPreferencesMock }));
+vi.mock("../../src/redux/slice", () => ({ setPreferences: setPreferencesMock }));
 
-vi.mock("../redux/thunks", () => ({
+vi.mock("../../src/redux/thunks", () => ({
     setUserData: setUserDataMock,
     decodeBase64: decodeBase64Mock,
 }));

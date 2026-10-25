@@ -2,9 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
-import Presets from "./Presets";
-import en from "../../translations/en";
-import { tonalityPath } from "../../routes/routes";
+import Presets from "../../../src/components/pages/Presets";
+import en from "../../../src/translations/en";
+import { tonalityPath } from "../../../src/routes/routes";
 
 const { dispatchMock, deletePresetsMock, mockState } = vi.hoisted(() => ({
     dispatchMock: vi.fn(),
@@ -23,12 +23,12 @@ vi.mock("react-redux", () => ({
     useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
 }));
 
-vi.mock("../../redux/store", () => ({
+vi.mock("../../../src/redux/store", () => ({
     user: (state: typeof mockState) => state.user,
     isLoading: (state: typeof mockState) => state.isLoading,
 }));
 
-vi.mock("../../redux/thunks", () => ({
+vi.mock("../../../src/redux/thunks", () => ({
     decodeBase64: () => "verified-user-id",
     deletePresets: Object.assign(deletePresetsMock, {
         fulfilled: { match: (action: { type: string }) => action.type === "test/delete/fulfilled" },

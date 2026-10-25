@@ -2,11 +2,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router";
-import VerifyEmail from "./VerifyEmail";
-import en from "../../translations/en";
-import de from "../../translations/de";
-import ua from "../../translations/ua";
-import { signInPath, verifyEmailPath } from "../../routes/routes";
+import VerifyEmail from "../../../src/components/auth/VerifyEmail";
+import en from "../../../src/translations/en";
+import de from "../../../src/translations/de";
+import ua from "../../../src/translations/ua";
+import { signInPath, verifyEmailPath } from "../../../src/routes/routes";
 
 type VerificationUser = { email: string; emailVerified: boolean };
 type AuthStateListener = (user: VerificationUser | null) => void;
@@ -23,10 +23,10 @@ const { state, authMock, authListener, onAuthStateChangedMock, reloadMock, signO
 }));
 
 vi.mock("react-redux", () => ({ useSelector: (selector: (value: typeof state) => unknown) => selector(state) }));
-vi.mock("../../redux/store", () => ({ user: (value: typeof state) => value }));
-vi.mock("../../firebase", () => ({ auth: authMock }));
+vi.mock("../../../src/redux/store", () => ({ user: (value: typeof state) => value }));
+vi.mock("../../../src/firebase", () => ({ auth: authMock }));
 vi.mock("firebase/auth", () => ({ onAuthStateChanged: onAuthStateChangedMock, reload: reloadMock, signOut: signOutMock }));
-vi.mock("../../firebaseEmailVerification", () => ({ sendVerificationEmail: sendVerificationEmailMock }));
+vi.mock("../../../src/firebaseEmailVerification", () => ({ sendVerificationEmail: sendVerificationEmailMock }));
 
 beforeEach(() => {
     vi.clearAllMocks();

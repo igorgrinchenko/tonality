@@ -2,11 +2,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import en from "../../translations/en";
-import de from "../../translations/de";
-import { signInPath, signUpPath, tonalityPath, verifyEmailPath } from "../../routes/routes";
+import SignIn from "../../../src/components/auth/SignIn";
+import SignUp from "../../../src/components/auth/SignUp";
+import en from "../../../src/translations/en";
+import de from "../../../src/translations/de";
+import { signInPath, signUpPath, tonalityPath, verifyEmailPath } from "../../../src/routes/routes";
 
 const { state, dispatchMock, signInMock, signUpMock } = vi.hoisted(() => ({
     state: { profile: { language: "en" }, signedIn: false, loading: false },
@@ -20,13 +20,13 @@ vi.mock("react-redux", () => ({
     useSelector: (selector: (value: typeof state) => unknown) => selector(state),
 }));
 
-vi.mock("../../redux/store", () => ({
+vi.mock("../../../src/redux/store", () => ({
     user: (value: typeof state) => value.profile,
     isSignedIn: (value: typeof state) => value.signedIn,
     isLoading: (value: typeof state) => value.loading,
 }));
 
-vi.mock("../../redux/thunks", () => ({
+vi.mock("../../../src/redux/thunks", () => ({
     signIn: Object.assign(signInMock, {
         fulfilled: { match: (action: { type: string }) => action.type === "user/signIn/fulfilled" },
     }),

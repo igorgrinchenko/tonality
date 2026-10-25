@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Tonality from "./Tonality";
-import en from "../../translations/en";
+import Tonality from "../../../src/components/pages/Tonality";
+import en from "../../../src/translations/en";
 
 const { dispatchMock, setPresetsMock, decodeBase64Mock } = vi.hoisted(() => ({
     dispatchMock: vi.fn(),
@@ -15,12 +15,12 @@ vi.mock("react-redux", () => ({
     useSelector: (selector: (state: { user: { language: string }; isLoading: boolean }) => unknown) => selector({ user: { language: "en" }, isLoading: false }),
 }));
 
-vi.mock("../../redux/store", () => ({
+vi.mock("../../../src/redux/store", () => ({
     user: (state: { user: { language: string } }) => state.user,
     isLoading: (state: { isLoading: boolean }) => state.isLoading,
 }));
 
-vi.mock("../../redux/thunks", () => ({
+vi.mock("../../../src/redux/thunks", () => ({
     setPresets: setPresetsMock,
     decodeBase64: decodeBase64Mock,
 }));

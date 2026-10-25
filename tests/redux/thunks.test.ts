@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import reducer, { setIsSignedIn } from "./slice";
-import { decodeBase64, deletePresets, encodeBase64, getUserData, logOut, setPresets, setUserData, signIn, signUp } from "./thunks";
-import { AuthCredentials, Presets } from "./interfaces";
+import reducer, { setIsSignedIn } from "../../src/redux/slice";
+import { decodeBase64, deletePresets, encodeBase64, getUserData, logOut, setPresets, setUserData, signIn, signUp } from "../../src/redux/thunks";
+import { AuthCredentials, Presets } from "../../src/redux/interfaces";
 
 const sdk = vi.hoisted(() => ({
     auth: { languageCode: null as string | null },
@@ -16,10 +16,10 @@ const sdk = vi.hoisted(() => ({
     sendVerificationEmail: vi.fn(),
 }));
 
-vi.mock("../firebase", () => ({ auth: sdk.auth, firestore: sdk.firestore }));
+vi.mock("../../src/firebase", () => ({ auth: sdk.auth, firestore: sdk.firestore }));
 vi.mock("firebase/auth", () => ({ signInWithEmailAndPassword: sdk.signIn, createUserWithEmailAndPassword: sdk.signUp, signOut: sdk.signOut }));
 vi.mock("firebase/firestore", () => ({ doc: sdk.doc, getDoc: sdk.getDoc, setDoc: sdk.setDoc }));
-vi.mock("../firebaseEmailVerification", () => ({ sendVerificationEmail: sdk.sendVerificationEmail }));
+vi.mock("../../src/firebaseEmailVerification", () => ({ sendVerificationEmail: sdk.sendVerificationEmail }));
 
 const uid = "verified-user-id";
 const email = "musician@example.com";
