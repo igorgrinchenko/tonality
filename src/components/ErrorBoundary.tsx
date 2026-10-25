@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Component, ErrorInfo, ReactNode } from "react";
 import { Button, Container, Typography } from "@mui/material";
 import { darkTheme, lightTheme } from "../styles/colors";
 

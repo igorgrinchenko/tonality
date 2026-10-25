@@ -54,6 +54,20 @@ const en: Translations = {
     VOLUME: "Volume",
     DEVELOPER_CREDIT: "Developed by Ihor Hrinchenko © 2024",
     VERSION: "Version",
+    VERIFY_EMAIL: "Verify email",
+    VERIFY_EMAIL_TITLE: "Confirm your email address",
+    VERIFY_EMAIL_INSTRUCTIONS: "Check your inbox and spam folder for a confirmation link. Open the link, then return here.",
+    VERIFICATION_NO_EMAIL: "No account is awaiting verification in this browser. Sign in with your registered address to request a new email.",
+    EMAIL_VERIFIED_TITLE: "Email confirmed",
+    EMAIL_VERIFIED_MESSAGE: "Your email address is confirmed. Sign in to continue.",
+    CHECK_EMAIL_VERIFICATION: "I've confirmed my email",
+    RESEND_VERIFICATION_EMAIL: "Resend confirmation email",
+    EMAIL_NOT_VERIFIED: "We haven't received confirmation yet. Open the link in your inbox and try again.",
+    VERIFICATION_EMAIL_ERROR: "Couldn't send the email. Please try again later.",
+    VERIFICATION_EMAIL_SENT: "Confirmation email sent.",
+    VERIFICATION_SIGN_IN_TO_RESEND: "Sign in with this email and password to request another confirmation email.",
+    VERIFICATION_RESEND_IN: "You can request another email in {seconds} seconds.",
+    BACK_TO_SIGN_IN: "Back to sign in",
 };
 
 export default en;

@@ -1,8 +1,6 @@
-import React, { Fragment, useEffect, useState } from "react";
-// MUI
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
-// Other
 import useStyles from "../styles/styles";
 
 const Loader: React.FC = () => {
@@ -24,13 +22,10 @@ const Loader: React.FC = () => {
     const { blur, loader } = useStyles();
 
     return (
-        <Fragment>
-            <Fragment>
-                <Box className={blur}></Box>
-            </Fragment>
-            {/* <CircularProgress className={loader} /> */}
+        <>
+            <Box className={blur}></Box>
             <AudiotrackIcon className={loader} sx={inlineStyles} />
-        </Fragment>
+        </>
     );
 };
 

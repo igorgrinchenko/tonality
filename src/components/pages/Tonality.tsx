@@ -2,18 +2,14 @@ import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { setPresets, decodeBase64 } from "../../redux/thunks";
-// MUI
 import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Typography, Button, CircularProgress, TextField } from "@mui/material";
-// Components
 import IOSSwitch from "../IOsSwitch";
-// Other
 import useStyles from "../../styles/styles";
 import getTranslations from "../../translations/getTranslations";
 import { CharactersCountOptions } from "../../common/interfaces";
 import { Alteration, Mode } from "../../common/types";
 import { user } from "../../redux/store";
 import { darkTheme, lightTheme } from "../../styles/colors";
-// Audio
 import C from "../../audio/major/C.mp3";
 import G from "../../audio/major/G.mp3";
 import D from "../../audio/major/D.mp3";

@@ -1,16 +1,29 @@
-import { Translations } from "../common/interfaces";
+import { Language, Translations } from "../common/interfaces";
 import de from "./de";
 import en from "./en";
 import ua from "./ua";
 
-export default function getTranslations(language: string): Translations {
-    if (language === "ua") {
+export function normalizeLanguage(language: unknown): Language {
+    switch (language) {
+        case "ua":
+        case "de":
+            return language;
+        default:
+            return "en";
+    }
+}
+
+export function getLocaleCode(language: unknown): "en" | "de" | "uk" {
+    const normalizedLanguage = normalizeLanguage(language);
+    return normalizedLanguage === "ua" ? "uk" : normalizedLanguage;
+}
+
+export default function getTranslations(language: unknown): Translations {
+    const normalizedLanguage = normalizeLanguage(language);
+
+    if (normalizedLanguage === "ua") {
         return ua;
     }
 
-    if (language === "de") {
-        return de;
-    }
-
-    return en;
+    return normalizedLanguage === "de" ? de : en;
 }

@@ -54,6 +54,20 @@ const de: Translations = {
     VOLUME: "Lautstärke",
     DEVELOPER_CREDIT: "Entwickelt von Ihor Hrinchenko © 2024",
     VERSION: "Version",
+    VERIFY_EMAIL: "E-Mail bestätigen",
+    VERIFY_EMAIL_TITLE: "Bestätige deine E-Mail-Adresse",
+    VERIFY_EMAIL_INSTRUCTIONS: "Prüfe deinen Posteingang und Spam-Ordner auf einen Bestätigungslink. Öffne den Link und kehre anschließend hierher zurück.",
+    VERIFICATION_NO_EMAIL: "In diesem Browser wartet kein Konto auf eine Bestätigung. Melde dich mit deiner registrierten Adresse an, um eine neue E-Mail anzufordern.",
+    EMAIL_VERIFIED_TITLE: "E-Mail bestätigt",
+    EMAIL_VERIFIED_MESSAGE: "Deine E-Mail-Adresse wurde bestätigt. Melde dich an, um fortzufahren.",
+    CHECK_EMAIL_VERIFICATION: "Ich habe meine E-Mail bestätigt",
+    RESEND_VERIFICATION_EMAIL: "Bestätigungs-E-Mail erneut senden",
+    EMAIL_NOT_VERIFIED: "Die Bestätigung ist noch nicht eingegangen. Öffne den Link in deinem Postfach und versuche es erneut.",
+    VERIFICATION_EMAIL_ERROR: "Die E-Mail konnte nicht gesendet werden. Bitte versuche es später erneut.",
+    VERIFICATION_EMAIL_SENT: "Bestätigungs-E-Mail gesendet.",
+    VERIFICATION_SIGN_IN_TO_RESEND: "Melde dich mit dieser E-Mail-Adresse und deinem Passwort an, um eine neue Bestätigungs-E-Mail anzufordern.",
+    VERIFICATION_RESEND_IN: "Du kannst in {seconds} Sekunden eine neue E-Mail anfordern.",
+    BACK_TO_SIGN_IN: "Zurück zur Anmeldung",
 };
 
 export default de;

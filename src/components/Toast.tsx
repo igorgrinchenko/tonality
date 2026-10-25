@@ -1,11 +1,8 @@
 import React from "react";
-// MUI
 import { Snackbar, Alert } from "@mui/material";
-// Redux
 import { useSelector, useDispatch } from "react-redux";
 import { isError, isSuccess, errorMessage, successMessage } from "../redux/store";
 import { resetError, resetSuccess } from "../redux/slice";
-// Other
 import { ToastType } from "../common/enums";
 
 const Toast: React.FC = () => {

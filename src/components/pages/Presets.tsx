@@ -1,13 +1,11 @@
-import React, { useRef, useState, MouseEvent } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { deletePresets, decodeBase64 } from "../../redux/thunks";
-// MUI
 import { List, ListItem, Typography, Paper, Modal, Button, Box, IconButton } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import StopCircleIcon from "@mui/icons-material/StopCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
-// Other
 import { user } from "../../redux/store";
 import useStyles from "../../styles/styles";
 import { darkTheme, lightTheme } from "../../styles/colors";
@@ -46,7 +44,7 @@ const Presets: React.FC = () => {
         }
     };
 
-    const handleOpenModal = (event: MouseEvent, preset: IPreset) => {
+    const handleOpenModal = (preset: IPreset) => {
         setOpenModal(true);
         setPresetId(preset.presetId);
         setPresetName(preset.presetName!);
@@ -70,7 +68,7 @@ const Presets: React.FC = () => {
                         <IconButton aria-label={`${activeIndex === index ? STOP : PLAY} ${preset.presetName}`} onClick={() => handlePlay(preset, index)}>
                             {activeIndex === index ? <StopCircleIcon /> : <PlayCircleIcon />}
                         </IconButton>
-                        <IconButton aria-label={`${DELETE} ${preset.presetName}`} onClick={(event) => handleOpenModal(event, preset)}>
+                        <IconButton aria-label={`${DELETE} ${preset.presetName}`} onClick={() => handleOpenModal(preset)}>
                             <DeleteIcon sx={{ color: error }} color="error" />
                         </IconButton>
                     </ListItem>

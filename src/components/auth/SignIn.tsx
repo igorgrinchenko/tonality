@@ -2,16 +2,12 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { signIn } from "../../redux/thunks";
-import { isSignedIn, AppDispatch } from "../../redux/store";
-// MUI
+import { isSignedIn, AppDispatch, user } from "../../redux/store";
 import { Typography, Button, TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-// Hooks
 import useStyles from "../../styles/styles";
-// Other
 import getTranslations from "../../translations/getTranslations";
-import { user } from "../../redux/store";
-import { tonalityPath } from "../../routes/routes";
+import { tonalityPath, verifyEmailPath } from "../../routes/routes";
 
 const SignIn: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -33,7 +29,10 @@ const SignIn: React.FC = () => {
 
     const login = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(signIn({ email, password }));
+        const result = await dispatch(signIn({ email, password, language }));
+        if (signIn.fulfilled.match(result) && result.payload.requiresEmailVerification) {
+            navigate(verifyEmailPath, { replace: true });
+        }
     };
 
     const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {

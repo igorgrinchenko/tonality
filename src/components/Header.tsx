@@ -1,14 +1,12 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useSelector } from "react-redux";
-// MUI
 import { Box, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-// Other
 import useStyles from "../styles/styles";
 import getTranslations from "../translations/getTranslations";
 import { user } from "../redux/store";
-import { authPath, signInPath, signUpPath, defaultPath, tonalityPath, tunePath, presetsPath, userPath } from "../routes/routes";
+import { authPath, signInPath, signUpPath, verifyEmailPath, defaultPath, tonalityPath, tunePath, presetsPath, userPath } from "../routes/routes";
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
@@ -18,7 +16,7 @@ const Header: React.FC = () => {
     const lang = getTranslations(language);
 
     const { headerWrapper, header } = useStyles();
-    const { RETURN_BACK, TONALITY, TUNE, PRESETS, PROFILE } = lang;
+    const { RETURN_BACK, VERIFY_EMAIL, TONALITY, TUNE, PRESETS, PROFILE } = lang;
 
     const returnBackHandler = () => {
         setHeaderArrow() && navigate(-1);
@@ -41,6 +39,8 @@ const Header: React.FC = () => {
                 return RETURN_BACK;
             case signUpPath:
                 return RETURN_BACK;
+            case verifyEmailPath:
+                return VERIFY_EMAIL;
             case tonalityPath:
                 return TONALITY;
             case tunePath:

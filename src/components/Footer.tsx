@@ -2,15 +2,12 @@ import React from "react";
 import { Link, useLocation } from "react-router";
 import { useSelector } from "react-redux";
 import { isLoading, isSignedIn, user } from "../redux/store";
-// MUI
 import { Box } from "@mui/material";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import PersonIcon from "@mui/icons-material/Person";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-// Hooks
 import useStyles from "../styles/styles";
-// Other
 import { tonalityPath, tunePath, presetsPath, userPath } from "../routes/routes";
 import { active, darkTheme, lightTheme } from "../styles/colors";
 import getTranslations from "../translations/getTranslations";

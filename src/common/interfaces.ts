@@ -67,6 +67,20 @@ export interface Translations {
     VOLUME: string;
     DEVELOPER_CREDIT: string;
     VERSION: string;
+    VERIFY_EMAIL: string;
+    VERIFY_EMAIL_TITLE: string;
+    VERIFY_EMAIL_INSTRUCTIONS: string;
+    VERIFICATION_NO_EMAIL: string;
+    EMAIL_VERIFIED_TITLE: string;
+    EMAIL_VERIFIED_MESSAGE: string;
+    CHECK_EMAIL_VERIFICATION: string;
+    RESEND_VERIFICATION_EMAIL: string;
+    EMAIL_NOT_VERIFIED: string;
+    VERIFICATION_EMAIL_ERROR: string;
+    VERIFICATION_EMAIL_SENT: string;
+    VERIFICATION_SIGN_IN_TO_RESEND: string;
+    VERIFICATION_RESEND_IN: string;
+    BACK_TO_SIGN_IN: string;
 }
 
 export interface CharactersCountOptions {

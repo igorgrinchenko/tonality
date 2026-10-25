@@ -5,7 +5,6 @@ import { setUserData, decodeBase64 } from "../redux/thunks";
 import { Language } from "../common/interfaces";
 import { darkTheme, lightTheme } from "../styles/colors";
 import getTranslations from "../translations/getTranslations";
-// MUI
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -43,6 +42,7 @@ const RadioButtonsGroup: React.FC<RadioButtonsGroupProps> = ({ theme, language, 
 
     const changeLanguageHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const language = event.target.value as Language;
+        localStorage.setItem("language", language);
         const encodedUID: string = localStorage.getItem("encodedUID")!;
         const uid: string = decodeBase64(encodedUID);
 

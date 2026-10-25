@@ -15,6 +15,7 @@ const classNames = {
     authButtonWrapper: "authButtonWrapper",
     signInWrapper: "signInWrapper",
     signUpWrapper: "signUpWrapper",
+    emailVerificationWrapper: "emailVerificationWrapper",
     tonalityClass: "tonalityClass",
     tonalityWrapper: "tonalityWrapper",
     tonalitySwitchWrapper: "tonalitySwitchWrapper",
@@ -30,12 +31,6 @@ const classNames = {
     forkSwitchWrapper: "forkSwitchWrapper",
     presetsList: "presetsList",
     presetListItem: "presetListItem",
-    notPWAPageWrapper: "notPWAPageWrapper",
-    notPWAPageContainer: "notPWAPageContainer",
-    accordionDetails: "accordionDetails",
-    accordionImages: "accordionImages",
-    landscapeForbiddenWrapper: "landscapeForbiddenWrapper",
-    landscapeForbiddenContainer: "landscapeForbiddenContainer",
     modalContent: "modalContent",
 } as const;
 

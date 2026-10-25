@@ -36,23 +36,6 @@
     color: #f4f4f4;
 }
 
-.notPWAPageContainer {
-    min-height: 100vh;
-    min-height: 100dvh;
-    overflow-y: auto;
-    padding: 10px;
-}
-
-.landscapeForbiddenContainer {
-    display: flex !important;
-    min-height: 100vh;
-    min-height: 100dvh;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-}
-
 .select {
     background-color: #f4f4f4 !important;
 }
@@ -139,9 +122,7 @@
 .authButtonWrapper,
 .signInWrapper,
 .signUpWrapper,
-.tonalityClass,
-.notPWAPageWrapper,
-.landscapeForbiddenWrapper {
+.tonalityClass {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -151,6 +132,17 @@
 .signInWrapper,
 .signUpWrapper {
     gap: 10px;
+}
+
+.emailVerificationWrapper {
+    display: flex;
+    width: 100%;
+    max-width: 460px;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: clamp(20px, 5vw, 32px);
+    border-radius: 4px;
 }
 
 .tonalityClass {
@@ -275,22 +267,6 @@
     width: 44px !important;
     height: 44px !important;
     padding: 8px !important;
-}
-
-.notPWAPageWrapper,
-.landscapeForbiddenWrapper {
-    gap: 20px;
-}
-
-.accordionDetails {
-    max-height: 500px;
-    overflow-y: auto;
-}
-
-.accordionImages {
-    display: block;
-    width: 100%;
-    max-width: 350px;
 }
 
 .modalContent {

@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-// MUI
 import { Box, Switch, Typography, Stack, Slider } from "@mui/material";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
-// Audio
 import forkSound from "../../audio/fork_sound.mp3";
-// Other
 import lightFork from "../../images/white_fork.png";
 import darkFork from "../../images/dark_fork.png";
 import useStyles from "../../styles/styles";
@@ -37,7 +34,7 @@ const Tune: React.FC = () => {
         }
     };
 
-    const changeVolumeHandler = (event: Event, newValue: number | number[]) => {
+    const changeVolumeHandler = (_event: Event, newValue: number | number[]) => {
         setVolume(newValue as number);
     };
 

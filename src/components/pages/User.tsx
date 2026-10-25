@@ -2,17 +2,13 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { user, AppDispatch } from "../../redux/store";
 import { logOut } from "../../redux/thunks";
-// Components
 import UserAvatar from "../Avatar";
 import RadioButtonsGroup from "../Radio";
-// MUI
 import { Box, Typography, Button } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import WarningIcon from "@mui/icons-material/Warning";
 import TelegramIcon from "@mui/icons-material/Telegram";
-// Hooks
 import useStyles from "../../styles/styles";
-// Other
 import getTranslations from "../../translations/getTranslations";
 import { darkTheme, lightTheme } from "../../styles/colors";
 import version from "../../app_version.json";

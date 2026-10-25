@@ -2,16 +2,12 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { signUp } from "../../redux/thunks";
-import { isSignedUp, AppDispatch } from "../../redux/store";
-// MUI
+import { isSignedUp, AppDispatch, user } from "../../redux/store";
 import { Typography, Button, TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-// Hooks
 import useStyles from "../../styles/styles";
-// Other
 import getTranslations from "../../translations/getTranslations";
-import { user } from "../../redux/store";
-import { authPath } from "../../routes/routes";
+import { verifyEmailPath } from "../../routes/routes";
 
 const SignUp: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -28,12 +24,12 @@ const SignUp: React.FC = () => {
     const { SIGN_UP, CREATE_AN_ACCOUNT, EMAIL, PASSWORD, SHOW_PASSWORD, HIDE_PASSWORD } = lang;
 
     useEffect(() => {
-        _isSignedUp && navigate(authPath);
+        _isSignedUp && navigate(verifyEmailPath, { replace: true });
     }, [_isSignedUp]);
 
     const register = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(signUp({ email, password }));
+        dispatch(signUp({ email, password, language }));
     };
 
     const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {

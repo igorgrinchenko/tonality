@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-// MUI
 import { Box, Button } from "@mui/material";
-// Hooks
 import useStyles from "../../styles/styles";
-// Other
 import getTranslations from "../../translations/getTranslations";
 import { user } from "../../redux/store";
 import { isSignedIn } from "../../redux/store";
