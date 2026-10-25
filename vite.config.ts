@@ -7,7 +7,7 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: "autoUpdate",
-            includeAssets: ["favicon.webp"],
+            includeAssets: ["favicon.svg", "favicon-32.png", "apple-touch-icon.png"],
             manifest: {
                 name: "Tonality",
                 short_name: "Tonality",
@@ -18,8 +18,8 @@ export default defineConfig({
                 theme_color: "#11121c",
                 background_color: "#11121c",
                 icons: [
-                    { src: "favicon.webp", sizes: "192x192", type: "image/webp" },
-                    { src: "favicon.webp", sizes: "512x512", type: "image/webp" },
+                    { src: "icon-192.png", sizes: "192x192", type: "image/png" },
+                    { src: "icon-512.png", sizes: "512x512", type: "image/png", purpose: "any maskable" },
                 ],
             },
             workbox: {
