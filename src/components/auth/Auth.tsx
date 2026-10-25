@@ -6,8 +6,7 @@ import { Box, Button } from "@mui/material";
 // Hooks
 import useStyles from "../../styles/styles";
 // Other
-import en from "../../translations/en";
-import ua from "../../translations/ua";
+import getTranslations from "../../translations/getTranslations";
 import { user } from "../../redux/store";
 import { isSignedIn } from "../../redux/store";
 import { tonalityPath, signInPath, signUpPath } from "../../routes/routes";
@@ -17,7 +16,7 @@ const Auth: React.FC = () => {
 
     const _isSignedIn: boolean = useSelector(isSignedIn);
     const { language } = useSelector(user);
-    const lang = language === "ua" ? ua : en;
+    const lang = getTranslations(language);
 
     const { authButtonWrapper, button } = useStyles();
     const { SIGN_IN, SIGN_UP } = lang;

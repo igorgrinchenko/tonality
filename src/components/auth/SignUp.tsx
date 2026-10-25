@@ -9,8 +9,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 // Hooks
 import useStyles from "../../styles/styles";
 // Other
-import en from "../../translations/en";
-import ua from "../../translations/ua";
+import getTranslations from "../../translations/getTranslations";
 import { user } from "../../redux/store";
 import { authPath } from "../../routes/routes";
 
@@ -19,14 +18,14 @@ const SignUp: React.FC = () => {
     const navigate = useNavigate();
     const _isSignedUp: boolean = useSelector(isSignedUp);
     const { language } = useSelector(user);
-    const lang = language === "ua" ? ua : en;
+    const lang = getTranslations(language);
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const { input, button, signUpWrapper } = useStyles();
-    const { SIGN_UP, CREATE_AN_ACCOUNT } = lang;
+    const { SIGN_UP, CREATE_AN_ACCOUNT, EMAIL, PASSWORD, SHOW_PASSWORD, HIDE_PASSWORD } = lang;
 
     useEffect(() => {
         _isSignedUp && navigate(authPath);
@@ -54,11 +53,11 @@ const SignUp: React.FC = () => {
             <Typography variant="subtitle1" component="span" align="center">
                 {CREATE_AN_ACCOUNT}
             </Typography>
-            <TextField className={input} id="filled-basic" label="Email" variant="filled" onChange={handleEmailChange} required={true} />
+            <TextField className={input} id="filled-basic" label={EMAIL} variant="filled" onChange={handleEmailChange} required={true} />
             <TextField
                 className={input}
                 id="filled-password-input"
-                label="Password"
+                label={PASSWORD}
                 variant="filled"
                 onChange={handlePasswordChange}
                 type={showPassword ? "text" : "password"}
@@ -68,7 +67,7 @@ const SignUp: React.FC = () => {
                     input: {
                         endAdornment: (
                             <InputAdornment position="end">
-                                <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                                <IconButton aria-label={showPassword ? HIDE_PASSWORD : SHOW_PASSWORD} onClick={handleClickShowPassword} edge="end">
                                     {showPassword ? <VisibilityOff /> : <Visibility />}
                                 </IconButton>
                             </InputAdornment>

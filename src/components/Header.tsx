@@ -6,8 +6,7 @@ import { Box, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 // Other
 import useStyles from "../styles/styles";
-import en from "../translations/en";
-import ua from "../translations/ua";
+import getTranslations from "../translations/getTranslations";
 import { user } from "../redux/store";
 import { authPath, signInPath, signUpPath, defaultPath, tonalityPath, tunePath, presetsPath, userPath } from "../routes/routes";
 
@@ -16,7 +15,7 @@ const Header: React.FC = () => {
     const location = useLocation();
 
     const { language } = useSelector(user);
-    const lang = language === "ua" ? ua : en;
+    const lang = getTranslations(language);
 
     const { headerWrapper, header } = useStyles();
     const { RETURN_BACK, TONALITY, TUNE, PRESETS, PROFILE } = lang;

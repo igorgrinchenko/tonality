@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
-import { DefaultPendingState, DefaultRejectedState, DefaultRejectedAction } from "./interfaces";
+import { DefaultPendingState, DefaultRejectedAction, UserState } from "./interfaces";
 import { signIn, signUp, logOut, getUserData, setUserData, setPresets, deletePresets } from "./thunks";
-import en from "../translations/en";
-
-const { PROFILE_CREATED, PRESET_SAVED, PRESET_DELETED, UNKNOWN_ERROR } = en;
+import getTranslations from "../translations/getTranslations";
 
 // Use it if you need success popup
 const setDefaultPendingState = (state: DefaultPendingState) => {
@@ -15,10 +13,10 @@ const setDefaultPendingState = (state: DefaultPendingState) => {
     state.errorMessage = "";
 };
 
-const setDefaultRejectedState = (state: DefaultRejectedState, action: DefaultRejectedAction) => {
+const setDefaultRejectedState = (state: UserState, action: DefaultRejectedAction) => {
     state.isLoading = false;
     state.isError = true;
-    state.errorMessage = action.error.message || UNKNOWN_ERROR;
+    state.errorMessage = action.error.message || getTranslations(state.user.language).UNKNOWN_ERROR;
 };
 
 export const userSlice = createSlice({
@@ -55,7 +53,7 @@ export const userSlice = createSlice({
         builder
             .addCase(signUp.pending, (state) => setDefaultPendingState(state))
             .addCase(signUp.fulfilled, (state) => {
-                state.successMessage = PROFILE_CREATED;
+                state.successMessage = getTranslations(state.user.language).PROFILE_CREATED;
                 state.isSuccess = true;
                 state.isSignedUp = true;
                 state.isLoading = false;
@@ -101,7 +99,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.user.presets = payload;
                 state.isSuccess = true;
-                state.successMessage = PRESET_SAVED;
+                state.successMessage = getTranslations(state.user.language).PRESET_SAVED;
             })
             .addCase(setPresets.rejected, (state, action) => setDefaultRejectedState(state, action));
         // DELETE PRESETS
@@ -111,7 +109,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.user.presets = payload;
                 state.isSuccess = true;
-                state.successMessage = PRESET_DELETED;
+                state.successMessage = getTranslations(state.user.language).PRESET_DELETED;
             })
             .addCase(deletePresets.rejected, (state, action) => setDefaultRejectedState(state, action));
     },

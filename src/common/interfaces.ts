@@ -2,6 +2,8 @@ export interface PrivateRouteProps {
     routeElement: React.ReactElement;
 }
 
+export type Language = "ua" | "en" | "de";
+
 export interface FirebaseConfig {
     apiKey: "AIzaSyCsqt_C6kFGyR5GfVUac8w1tHzA0b74Fck" & string;
     authDomain: "tonallity-app.firebaseapp.com" & string;
@@ -40,6 +42,7 @@ export interface Translations {
     LIGHT: string;
     UA: string;
     EN: string;
+    DE: string;
     ERROR_BOUNDARY_MESSAGE: string;
     RELOAD: string;
     SAVE_PRESET: string;
@@ -55,6 +58,15 @@ export interface Translations {
     DELETE_PRESET_CONFIRM_TEXT: string;
     CONTACT_THE_DEVELOPER: string;
     PRESET_NAME: string;
+    EMAIL: string;
+    PASSWORD: string;
+    SHOW_PASSWORD: string;
+    HIDE_PASSWORD: string;
+    AUDIO_OFF: string;
+    AUDIO_ON: string;
+    VOLUME: string;
+    DEVELOPER_CREDIT: string;
+    VERSION: string;
 }
 
 export interface CharactersCountOptions {

@@ -8,8 +8,7 @@ import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Typo
 import IOSSwitch from "../IOsSwitch";
 // Other
 import useStyles from "../../styles/styles";
-import en from "../../translations/en";
-import ua from "../../translations/ua";
+import getTranslations from "../../translations/getTranslations";
 import { CharactersCountOptions } from "../../common/interfaces";
 import { Alteration, Mode } from "../../common/types";
 import { user } from "../../redux/store";
@@ -62,7 +61,7 @@ const Tonality: React.FC = () => {
     const [audioState, setAudioState] = useState<boolean>(false);
 
     const { theme, language } = useSelector(user);
-    const lang = language === "ua" ? ua : en;
+    const lang = getTranslations(language);
 
     const inlineStyles = {
         boxShadow: `0 0 5px ${theme === "dark" ? lightTheme : darkTheme}`,

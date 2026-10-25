@@ -1,9 +1,11 @@
+import { Language } from "../common/interfaces";
+
 export interface UserState {
     user: {
         email: string | null;
         tokenExpTime: number;
         theme: "dark" | "light";
-        language: "ua" | "en";
+        language: Language;
         isVerified: boolean;
         presets: [] | Presets[];
     };
@@ -24,12 +26,6 @@ export interface DefaultPendingState {
     successMessage: string;
 }
 
-export interface DefaultRejectedState {
-    isLoading: boolean;
-    isError: boolean;
-    errorMessage: string;
-}
-
 export interface DefaultRejectedAction {
     error: {
         message?: string;
@@ -43,7 +39,7 @@ export interface AuthCredentials {
 
 export interface UserData {
     theme: string;
-    language: string;
+    language: Language;
     isVerified: boolean;
     uid: string;
 }

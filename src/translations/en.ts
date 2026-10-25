@@ -29,6 +29,7 @@ const en: Translations = {
     LIGHT: "light",
     UA: "ua",
     EN: "en",
+    DE: "de",
     ERROR_BOUNDARY_MESSAGE: "Oops... Something went wrong! Try again",
     RELOAD: "Reload",
     SAVE_PRESET: "Save preset",
@@ -44,6 +45,15 @@ const en: Translations = {
     DELETE_PRESET_CONFIRM_TEXT: "Do you really want to delete preset ",
     CONTACT_THE_DEVELOPER: "Contact the developer",
     PRESET_NAME: "Preset name",
+    EMAIL: "Email",
+    PASSWORD: "Password",
+    SHOW_PASSWORD: "Show password",
+    HIDE_PASSWORD: "Hide password",
+    AUDIO_OFF: "off",
+    AUDIO_ON: "on",
+    VOLUME: "Volume",
+    DEVELOPER_CREDIT: "Developed by Ihor Hrinchenko © 2024",
+    VERSION: "Version",
 };
 
 export default en;

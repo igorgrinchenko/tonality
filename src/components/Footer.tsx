@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router";
 import { useSelector } from "react-redux";
-import { isSignedIn } from "../redux/store";
+import { isLoading, isSignedIn, user } from "../redux/store";
 // MUI
 import { Box } from "@mui/material";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
@@ -13,13 +13,16 @@ import useStyles from "../styles/styles";
 // Other
 import { tonalityPath, tunePath, presetsPath, userPath } from "../routes/routes";
 import { active, darkTheme, lightTheme } from "../styles/colors";
-import { user } from "../redux/store";
+import getTranslations from "../translations/getTranslations";
 
 const Footer: React.FC = () => {
     const location = useLocation();
     const { footerWrapper } = useStyles();
-    const { theme } = useSelector(user);
+    const { theme, language } = useSelector(user);
     const _isSignedIn: boolean = useSelector(isSignedIn);
+    const _isLoading: boolean = useSelector(isLoading);
+    const lang = getTranslations(language);
+    const { TONALITY, TUNE, PRESETS, PROFILE } = lang;
 
     const inlineStylesFooterIcon = {
         width: "32px !important",
@@ -40,11 +43,23 @@ const Footer: React.FC = () => {
     const setActiveIcon = (path: string) => (path === location.pathname ? inlineStylesFooterActiveIcon : inlineStylesFooterIcon);
 
     return (
-        <Box className={footerWrapper} sx={inlineStylesFooterWrapper}>
-            <Link to={tonalityPath}>{_isSignedIn && <MusicNoteIcon sx={setActiveIcon(tonalityPath)} />}</Link>
-            <Link to={tunePath}>{_isSignedIn && <FormatUnderlinedIcon sx={setActiveIcon(tunePath)} />}</Link>
-            <Link to={presetsPath}>{_isSignedIn && <FormatListBulletedIcon sx={setActiveIcon(presetsPath)} />}</Link>
-            <Link to={userPath}>{_isSignedIn && <PersonIcon sx={setActiveIcon(userPath)} />}</Link>
+        <Box className={footerWrapper} sx={inlineStylesFooterWrapper} aria-busy={_isLoading}>
+            {_isSignedIn && !_isLoading && (
+                <>
+                    <Link to={tonalityPath} aria-label={TONALITY}>
+                        <MusicNoteIcon sx={setActiveIcon(tonalityPath)} />
+                    </Link>
+                    <Link to={tunePath} aria-label={TUNE}>
+                        <FormatUnderlinedIcon sx={setActiveIcon(tunePath)} />
+                    </Link>
+                    <Link to={presetsPath} aria-label={PRESETS}>
+                        <FormatListBulletedIcon sx={setActiveIcon(presetsPath)} />
+                    </Link>
+                    <Link to={userPath} aria-label={PROFILE}>
+                        <PersonIcon sx={setActiveIcon(userPath)} />
+                    </Link>
+                </>
+            )}
         </Box>
     );
 };

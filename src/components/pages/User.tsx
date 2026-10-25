@@ -13,8 +13,7 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 // Hooks
 import useStyles from "../../styles/styles";
 // Other
-import en from "../../translations/en";
-import ua from "../../translations/ua";
+import getTranslations from "../../translations/getTranslations";
 import { darkTheme, lightTheme } from "../../styles/colors";
 import version from "../../app_version.json";
 import { URLs } from "../../common/enums";
@@ -23,10 +22,10 @@ const User: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { email, theme, language, isVerified } = useSelector(user);
-    const lang = language === "ua" ? ua : en;
+    const lang = getTranslations(language);
 
     const { userWrapper, userSettings, userEmailWrapper, contactDeveloper } = useStyles();
-    const { LOG_OUT, CONTACT_THE_DEVELOPER } = lang;
+    const { LOG_OUT, CONTACT_THE_DEVELOPER, DEVELOPER_CREDIT, VERSION } = lang;
 
     const inlineStyles = {
         boxShadow: `0 0 5px ${theme === "dark" ? lightTheme : darkTheme}`,
@@ -34,13 +33,13 @@ const User: React.FC = () => {
 
     const parseVersion = (): string => {
         const parsedObj = JSON.parse(JSON.stringify(version));
-        const formattedString = `Version: ${parsedObj.version}`;
+        const formattedString = `${VERSION}: ${parsedObj.version}`;
         return formattedString;
     };
 
     const openChatWithDeveloper = () => window.open(URLs.telegram);
 
-    const developer = "Developed by Ihor Hrinchenko © 2024";
+    const developer = DEVELOPER_CREDIT;
 
     const logOutHandler = () => dispatch(logOut());
 
@@ -54,7 +53,7 @@ const User: React.FC = () => {
                         {isVerified ? <VerifiedIcon /> : <WarningIcon />}
                     </Box>
 
-                    <RadioButtonsGroup theme={theme} language={language} isVerified={isVerified} options={{ dark: "dark", light: "light", uaLang: "ua", enLang: "en" }} />
+                    <RadioButtonsGroup theme={theme} language={language} isVerified={isVerified} options={{ dark: "dark", light: "light", uaLang: "ua", enLang: "en", deLang: "de" }} />
                 </Box>
 
                 <Button fullWidth variant="outlined" color="error" onClick={logOutHandler}>

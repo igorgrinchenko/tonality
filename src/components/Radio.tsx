@@ -2,9 +2,9 @@ import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, user } from "../redux/store";
 import { setUserData, decodeBase64 } from "../redux/thunks";
+import { Language } from "../common/interfaces";
 import { darkTheme, lightTheme } from "../styles/colors";
-import en from "../translations/en";
-import ua from "../translations/ua";
+import getTranslations from "../translations/getTranslations";
 // MUI
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -15,9 +15,9 @@ import { Box } from "@mui/material";
 
 interface RadioButtonsGroupProps {
     theme: string;
-    language: string;
+    language: Language;
     isVerified: boolean;
-    options: { dark: string; light: string; uaLang: string; enLang: string };
+    options: { dark: string; light: string; uaLang: Language; enLang: Language; deLang: Language };
 }
 
 const RadioButtonsGroup: React.FC<RadioButtonsGroupProps> = ({ theme, language, isVerified, options }) => {
@@ -28,10 +28,10 @@ const RadioButtonsGroup: React.FC<RadioButtonsGroupProps> = ({ theme, language, 
     const inlineStyles = {
         color: _theme === "dark" ? lightTheme : darkTheme,
     };
-    const lang = language === "ua" ? ua : en;
+    const lang = getTranslations(language);
 
     const { LANG, MODE, DARK, LIGHT } = lang;
-    const { dark, light, uaLang, enLang } = options;
+    const { dark, light, uaLang, enLang, deLang } = options;
 
     const changeModeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const theme: string = event.target.value;
@@ -42,7 +42,7 @@ const RadioButtonsGroup: React.FC<RadioButtonsGroupProps> = ({ theme, language, 
     };
 
     const changeLanguageHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const language: string = event.target.value;
+        const language = event.target.value as Language;
         const encodedUID: string = localStorage.getItem("encodedUID")!;
         const uid: string = decodeBase64(encodedUID);
 
@@ -81,6 +81,7 @@ const RadioButtonsGroup: React.FC<RadioButtonsGroupProps> = ({ theme, language, 
                     >
                         <FormControlLabel value={uaLang} control={<Radio />} label="🇺🇦" />
                         <FormControlLabel value={enLang} control={<Radio />} label="🇺🇸" />
+                        <FormControlLabel value={deLang} control={<Radio />} label="🇩🇪" />
                     </RadioGroup>
                 </Box>
             </FormControl>

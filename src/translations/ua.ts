@@ -29,6 +29,7 @@ const ua: Translations = {
     LIGHT: "світлий",
     UA: "ua",
     EN: "en",
+    DE: "de",
     ERROR_BOUNDARY_MESSAGE: "Ой... Щось пішло не так! Спробуйте знову",
     RELOAD: "Перезавантажити",
     SAVE_PRESET: "Зберегти шаблон",
@@ -44,6 +45,15 @@ const ua: Translations = {
     DELETE_PRESET_CONFIRM_TEXT: "Чи справді ви хочете видалити шаблон ",
     CONTACT_THE_DEVELOPER: "Зв'язатись із розробником",
     PRESET_NAME: "Назва шаблону",
+    EMAIL: "Електронна пошта",
+    PASSWORD: "Пароль",
+    SHOW_PASSWORD: "Показати пароль",
+    HIDE_PASSWORD: "Приховати пароль",
+    AUDIO_OFF: "вимк.",
+    AUDIO_ON: "увімк.",
+    VOLUME: "Гучність",
+    DEVELOPER_CREDIT: "Розробник Ihor Hrinchenko © 2024",
+    VERSION: "Версія",
 };
 
 export default ua;

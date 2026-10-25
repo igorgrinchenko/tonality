@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { deletePresets, decodeBase64 } from "../../redux/thunks";
 // MUI
-import { List, ListItem, Typography, Paper, Modal, Button, Box } from "@mui/material";
+import { List, ListItem, Typography, Paper, Modal, Button, Box, IconButton } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import StopCircleIcon from "@mui/icons-material/StopCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -12,8 +12,7 @@ import { user } from "../../redux/store";
 import useStyles from "../../styles/styles";
 import { darkTheme, lightTheme } from "../../styles/colors";
 import { error } from "../../styles/colors";
-import ua from "../../translations/ua";
-import en from "../../translations/en";
+import getTranslations from "../../translations/getTranslations";
 import { Presets as IPreset } from "../../redux/interfaces";
 
 const Presets: React.FC = () => {
@@ -26,9 +25,9 @@ const Presets: React.FC = () => {
     const [presetId, setPresetId] = useState<number | undefined>(undefined);
     const [presetName, setPresetName] = useState<string>("");
 
-    const lang = language === "ua" ? ua : en;
+    const lang = getTranslations(language);
 
-    const { DELETE, DELETE_PRESET_CONFIRM_TEXT } = lang;
+    const { DELETE, DELETE_PRESET_CONFIRM_TEXT, PLAY, STOP } = lang;
 
     const handlePlay = (preset: IPreset, index: number) => {
         const audio = audioRef.current;
@@ -62,18 +61,18 @@ const Presets: React.FC = () => {
 
     return (
         <Paper sx={{ maxHeight: "90%", width: "100%", backgroundColor: theme === "dark" ? darkTheme : lightTheme, overflow: "auto" }}>
+            <audio loop ref={audioRef} />
             <List className={presetsList}>
                 {presets.map((preset, index) => (
                     <ListItem className={presetListItem} key={`preset_${index}`}>
-                        <Typography sx={{ width: "33%", textAlign: "left" }}>{preset.presetName}</Typography>
-                        <Typography sx={{ width: "33%", textAlign: "center" }}>{preset.presetValue}</Typography>
-                        <Typography sx={{ width: "34%", textAlign: "center" }} onClick={() => handlePlay(preset, index)}>
-                            {activeIndex === index ? <StopCircleIcon fontSize="large" /> : <PlayCircleIcon fontSize="large" />}
-                        </Typography>
-                        <audio loop ref={audioRef} />
-                        <Typography sx={{ textAlign: "right" }}>
-                            <DeleteIcon sx={{ color: error }} fontSize="large" color="error" onClick={(event) => handleOpenModal(event, preset)} />
-                        </Typography>
+                        <Typography sx={{ textAlign: "left" }}>{preset.presetName}</Typography>
+                        <Typography sx={{ textAlign: "center" }}>{preset.presetValue}</Typography>
+                        <IconButton aria-label={`${activeIndex === index ? STOP : PLAY} ${preset.presetName}`} onClick={() => handlePlay(preset, index)}>
+                            {activeIndex === index ? <StopCircleIcon /> : <PlayCircleIcon />}
+                        </IconButton>
+                        <IconButton aria-label={`${DELETE} ${preset.presetName}`} onClick={(event) => handleOpenModal(event, preset)}>
+                            <DeleteIcon sx={{ color: error }} color="error" />
+                        </IconButton>
                     </ListItem>
                 ))}
             </List>
