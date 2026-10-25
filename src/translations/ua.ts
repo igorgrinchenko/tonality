@@ -52,7 +52,7 @@ const ua: Translations = {
     AUDIO_OFF: "Вимкнено",
     AUDIO_ON: "Увімкнено",
     VOLUME: "Гучність",
-    DEVELOPER_CREDIT: "Розробник: Ihor Hrinchenko © 2024",
+    DEVELOPER_CREDIT: "Розробник: Ihor Hrinchenko © 2026",
     VERSION: "Версія",
     VERIFY_EMAIL: "Підтвердити електронну пошту",
     VERIFY_EMAIL_TITLE: "Підтвердьте свою електронну адресу",

@@ -52,7 +52,7 @@ const en: Translations = {
     AUDIO_OFF: "Off",
     AUDIO_ON: "On",
     VOLUME: "Volume",
-    DEVELOPER_CREDIT: "Developed by Ihor Hrinchenko © 2024",
+    DEVELOPER_CREDIT: "Developed by Ihor Hrinchenko © 2026",
     VERSION: "Version",
     VERIFY_EMAIL: "Verify email",
     VERIFY_EMAIL_TITLE: "Confirm your email address",
