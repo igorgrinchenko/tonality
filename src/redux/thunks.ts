@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { setTokenExpTime } from "./slice";
-import { AuthCredentials, UserData, IUId, Presets, SignInResult, SignUpResult, UserSettings } from "./interfaces";
+import { AuthCredentials, UserData, IUId, Preset, Presets, SignInResult, SignUpResult, UserSettings } from "./interfaces";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, UserCredential, IdTokenResult } from "firebase/auth";
 import { auth, firestore } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -152,8 +152,9 @@ export const setPresets = createAsyncThunk("users/setPresets", async ({ presetNa
     try {
         const docRef = doc(firestore, "userSettings", uid);
         const docSnap = await getDoc(docRef);
-        const currentPresets = docSnap.data()?.presets;
-        const presetId: number = currentPresets.length;
+        const storedPresets = docSnap.data()?.presets;
+        const currentPresets: Preset[] = Array.isArray(storedPresets) ? storedPresets : [];
+        const presetId = currentPresets.reduce((nextId, preset) => Math.max(nextId, (preset.presetId ?? -1) + 1), 0);
         const updatedPresets = [...currentPresets, { presetName, presetValue, presetId, audioPath }];
 
         await setDoc(docRef, { presets: updatedPresets }, { merge: true });
@@ -170,7 +171,7 @@ export const deletePresets = createAsyncThunk("users/deletePresets", async ({ pr
         const docRef = doc(firestore, "userSettings", uid);
         const docSnap = await getDoc(docRef);
         const currentPresets = docSnap.data()?.presets;
-        const updatedPresets = currentPresets.filter((preset: Presets) => preset.presetId !== presetId);
+        const updatedPresets = currentPresets.filter((preset: Preset) => preset.presetId !== presetId);
 
         await setDoc(docRef, { presets: updatedPresets }, { merge: true });
 

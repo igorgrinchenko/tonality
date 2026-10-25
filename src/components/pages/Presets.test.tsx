@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import Presets from "./Presets";
 import en from "../../translations/en";
+import { tonalityPath } from "../../routes/routes";
 
 const { dispatchMock, deletePresetsMock, mockState } = vi.hoisted(() => ({
     dispatchMock: vi.fn(),
@@ -146,5 +147,121 @@ describe("saved-key deletion while audio is playing", () => {
 
         expect(HTMLMediaElement.prototype.pause).not.toHaveBeenCalled();
         expect(within(presetRow("Evening practice")).getByRole("button", { name: `${en.STOP} Evening practice` })).toHaveAttribute("aria-pressed", "true");
+    });
+});
+
+describe("saved music interactions", () => {
+    it("provides a route back to finding keys when the collection is empty", () => {
+        mockState.user.presets = [];
+        renderPage();
+
+        expect(screen.getByRole("heading", { name: en.EMPTY_PRESETS_TITLE })).toBeInTheDocument();
+        expect(screen.getByText(en.EMPTY_PRESETS_DESCRIPTION)).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: en.FIND_A_KEY })).toHaveAttribute("href", tonalityPath);
+        expect(screen.queryByRole("list")).not.toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: new RegExp(`^${en.DELETE}`) })).not.toBeInTheDocument();
+    });
+
+    it("shows the saved count, names and key values without requiring playback", () => {
+        renderPage();
+        const collection = screen.getByRole("region", { name: en.SAVED_KEYS });
+
+        expect(within(collection).getByText("2", { exact: true })).toBeInTheDocument();
+        expect(within(collection).getAllByRole("listitem")).toHaveLength(2);
+        expect(within(presetRow("Warm-up")).getByText("C", { exact: true })).toBeInTheDocument();
+        expect(within(presetRow("Evening practice")).getByText("Am", { exact: true })).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: en.FIND_A_KEY })).toHaveAttribute("href", tonalityPath);
+        expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+    });
+
+    it("lets the user cancel deletion without dispatching a request or changing the collection", async () => {
+        const interaction = renderPage();
+        await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.DELETE} Warm-up` }));
+        const dialog = screen.getByRole("dialog", { name: en.PRESET_DELETE_TITLE });
+        expect(dialog).toHaveTextContent("Warm-up");
+        await interaction.click(within(dialog).getByRole("button", { name: en.CANCEL }));
+
+        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+        expect(deletePresetsMock).not.toHaveBeenCalled();
+        expect(dispatchMock).not.toHaveBeenCalled();
+        expect(screen.getAllByRole("listitem")).toHaveLength(2);
+    });
+
+    it("switches the looped recording and stops the selected track on request", async () => {
+        const interaction = renderPage();
+        await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` }));
+        await waitFor(() => expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.STOP} Warm-up` })).toBeEnabled());
+        expect(document.querySelector("audio")).toHaveAttribute("src", "/warm-up.mp3");
+        expect(document.querySelector("audio")).toHaveAttribute("loop");
+
+        await playEveningPreset(interaction);
+        expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` })).toHaveAttribute("aria-pressed", "false");
+        expect(document.querySelector("audio")).toHaveAttribute("src", "/evening.mp3");
+        await interaction.click(within(presetRow("Evening practice")).getByRole("button", { name: `${en.STOP} Evening practice` }));
+
+        expect(within(presetRow("Evening practice")).getByRole("button", { name: `${en.PLAY} Evening practice` })).toHaveAttribute("aria-pressed", "false");
+        expect(screen.queryByText(en.AUDIO_PLAYING)).not.toBeInTheDocument();
+        expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(2);
+    });
+
+    it("allows retrying a saved recording after playback fails", async () => {
+        vi.mocked(HTMLMediaElement.prototype.play).mockRejectedValueOnce(new Error("Audio unavailable"));
+        const interaction = renderPage();
+        await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` }));
+
+        expect(await screen.findByRole("alert")).toHaveTextContent(en.PLAYBACK_ERROR);
+        expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` })).toBeEnabled();
+        await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` }));
+        await waitFor(() => expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.STOP} Warm-up` })).toBeEnabled());
+
+        expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+        expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(2);
+    });
+
+    it("prevents competing playback and deletion while a recording is starting", async () => {
+        let resolvePlayback!: () => void;
+        vi.mocked(HTMLMediaElement.prototype.play).mockImplementationOnce(
+            () =>
+                new Promise<void>((resolve) => {
+                    resolvePlayback = resolve;
+                })
+        );
+        const interaction = renderPage();
+        await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` }));
+
+        expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.STOP} Warm-up` })).toBeDisabled();
+        expect(within(presetRow("Evening practice")).getByRole("button", { name: `${en.PLAY} Evening practice` })).toBeDisabled();
+        expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.DELETE} Warm-up` })).toBeDisabled();
+        expect(within(presetRow("Evening practice")).getByRole("button", { name: `${en.DELETE} Evening practice` })).toBeDisabled();
+
+        await act(async () => {
+            resolvePlayback();
+        });
+        await waitFor(() => expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.STOP} Warm-up` })).toBeEnabled());
+        expect(within(presetRow("Evening practice")).getByRole("button", { name: `${en.PLAY} Evening practice` })).toBeEnabled();
+        expect(within(presetRow("Evening practice")).getByRole("button", { name: `${en.DELETE} Evening practice` })).toBeEnabled();
+        expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    });
+
+    it("keeps deletion available but cannot play a preset without a recording", () => {
+        mockState.user.presets[0].audioPath = "";
+        renderPage();
+
+        expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` })).toBeDisabled();
+        expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.DELETE} Warm-up` })).toBeEnabled();
+    });
+
+    it("pauses saved music when the user leaves the page", async () => {
+        const interaction = userEvent.setup();
+        const view = render(
+            <MemoryRouter>
+                <Presets />
+            </MemoryRouter>
+        );
+        await playEveningPreset(interaction);
+        vi.mocked(HTMLMediaElement.prototype.pause).mockClear();
+        view.unmount();
+
+        expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledOnce();
     });
 });

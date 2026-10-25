@@ -7,7 +7,7 @@ const palettes = {
         soft: "#f3f4f9",
         raised: "#fafaff",
         text: "#25253b",
-        secondary: "#6e7084",
+        secondary: "#686a7e",
         border: "#e6e7f0",
         accent: "#6658d9",
         accentHover: "#5546c4",

@@ -10,7 +10,7 @@ import StopRoundedIcon from "@mui/icons-material/StopRounded";
 import PageHeading from "../PageHeading";
 import { AppDispatch, isLoading, user } from "../../redux/store";
 import { decodeBase64, deletePresets } from "../../redux/thunks";
-import { Presets as IPreset } from "../../redux/interfaces";
+import { Preset as IPreset } from "../../redux/interfaces";
 import { tonalityPath } from "../../routes/routes";
 import getTranslations from "../../translations/getTranslations";
 import "../../styles/pages.css";

@@ -7,7 +7,7 @@ export interface UserState {
         theme: "dark" | "light";
         language: Language;
         isVerified: boolean;
-        presets: [] | Presets[];
+        presets: Preset[];
     };
     isSignedIn: boolean;
     isSignedUp: boolean;
@@ -53,7 +53,7 @@ export interface UserSettings {
     theme: "dark" | "light";
     language: Language;
     isVerified: boolean;
-    presets: Presets[];
+    presets: Preset[];
 }
 
 export interface UserData {
@@ -67,9 +67,11 @@ export interface IUId {
     uid: string;
 }
 
-export interface Presets extends IUId {
+export interface Preset {
     presetId?: number;
     presetName?: string;
     presetValue?: string;
     audioPath?: string;
 }
+
+export interface Presets extends Preset, IUId {}
