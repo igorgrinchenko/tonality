@@ -1,13 +1,11 @@
 import { Component, ErrorInfo, ReactNode } from "react";
-import { Button, Container, Typography } from "@mui/material";
-import { darkTheme, lightTheme } from "../styles/colors";
+import { Button } from "@mui/material";
+import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
 interface ErrorBoundaryProps {
     children: ReactNode;
-    errorBoundary: string;
     errorMessage: string;
     buttonText: string;
-    theme: string;
 }
 
 interface ErrorBoundaryState {
@@ -15,43 +13,32 @@ interface ErrorBoundaryState {
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    constructor(props: ErrorBoundaryProps) {
-        super(props);
-        this.state = { hasError: false };
-    }
+    state: ErrorBoundaryState = { hasError: false };
 
-    static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-        console.log(error);
+    static getDerivedStateFromError(): ErrorBoundaryState {
         return { hasError: true };
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        console.log({ error, errorInfo });
-    }
-
-    reload() {
-        window.location.reload();
+        console.error(error, errorInfo);
     }
 
     render() {
         if (this.state.hasError) {
             return (
-                <Container
-                    maxWidth="sm"
-                    className={this.props.errorBoundary}
-                    sx={this.props.theme === "dark" ? { color: lightTheme, backgroundColor: darkTheme } : { color: darkTheme, backgroundColor: lightTheme }}
-                >
-                    <Typography variant="h6" sx={{ textAlign: "center" }}>
-                        {this.props.errorMessage}
-                    </Typography>
-                    <br />
-                    <Button onClick={this.reload} variant="contained">
-                        {this.props.buttonText}
-                    </Button>
-                </Container>
+                <main className="error-screen">
+                    <section className="surface-card error-card">
+                        <span className="icon-tile">
+                            <ErrorOutlineRoundedIcon />
+                        </span>
+                        <h1>{this.props.errorMessage}</h1>
+                        <Button variant="contained" onClick={() => window.location.reload()}>
+                            {this.props.buttonText}
+                        </Button>
+                    </section>
+                </main>
             );
         }
-
         return this.props.children;
     }
 }

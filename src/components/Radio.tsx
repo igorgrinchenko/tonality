@@ -1,92 +1,96 @@
-import React, { ChangeEvent } from "react";
+import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, user } from "../redux/store";
+import { AppDispatch, isLoading } from "../redux/store";
 import { setUserData, decodeBase64 } from "../redux/thunks";
+import { setPreferences } from "../redux/slice";
 import { Language } from "../common/interfaces";
-import { darkTheme, lightTheme } from "../styles/colors";
 import getTranslations from "../translations/getTranslations";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import { Box } from "@mui/material";
 
 interface RadioButtonsGroupProps {
-    theme: string;
+    theme: "light" | "dark";
     language: Language;
     isVerified: boolean;
-    options: { dark: string; light: string; uaLang: Language; enLang: Language; deLang: Language };
 }
 
-const RadioButtonsGroup: React.FC<RadioButtonsGroupProps> = ({ theme, language, isVerified, options }) => {
+export default function RadioButtonsGroup({ theme, language, isVerified }: RadioButtonsGroupProps) {
     const dispatch = useDispatch<AppDispatch>();
-
-    const { theme: _theme } = useSelector(user);
-
-    const inlineStyles = {
-        color: _theme === "dark" ? lightTheme : darkTheme,
-    };
+    const loading = useSelector(isLoading);
     const lang = getTranslations(language);
+    const languages: { value: Language; name: string; code: string }[] = [
+        { value: "en", name: "English", code: "EN" },
+        { value: "de", name: "Deutsch", code: "DE" },
+        { value: "ua", name: "Українська", code: "UK" },
+    ];
 
-    const { LANG, MODE, DARK, LIGHT } = lang;
-    const { dark, light, uaLang, enLang, deLang } = options;
-
-    const changeModeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const theme: string = event.target.value;
-        const encodedUID: string = localStorage.getItem("encodedUID")!;
-        const uid: string = decodeBase64(encodedUID);
-
-        dispatch(setUserData({ theme, language, isVerified, uid }));
-    };
-
-    const changeLanguageHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const language = event.target.value as Language;
-        localStorage.setItem("language", language);
-        const encodedUID: string = localStorage.getItem("encodedUID")!;
-        const uid: string = decodeBase64(encodedUID);
-
-        dispatch(setUserData({ theme, language, isVerified, uid }));
+    const updateSettings = (nextTheme: "light" | "dark", nextLanguage: Language) => {
+        if (nextTheme === theme && nextLanguage === language) return;
+        localStorage.setItem("theme", nextTheme);
+        localStorage.setItem("language", nextLanguage);
+        dispatch(setPreferences({ theme: nextTheme, language: nextLanguage }));
+        const encodedUID = localStorage.getItem("encodedUID");
+        if (encodedUID) {
+            dispatch(setUserData({ theme: nextTheme, language: nextLanguage, isVerified, uid: decodeBase64(encodedUID) }));
+        }
     };
 
     return (
-        <>
-            <FormControl sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                <Box>
-                    <FormLabel sx={inlineStyles} id="demo-radio-buttons-group-label">
-                        {MODE}:
-                    </FormLabel>
-                    <RadioGroup
-                        sx={{ display: "flex", flexDirection: "row" }}
-                        onChange={changeModeHandler}
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        value={theme}
-                        name="radio-buttons-group"
+        <div className="preferences-controls">
+            <div className="preference-section">
+                <h3 className="preference-title" id="appearance-label">
+                    {lang.MODE}
+                </h3>
+                <p className="muted preference-help">{lang.APPEARANCE_DESCRIPTION}</p>
+                <div className="appearance-options" role="group" aria-labelledby="appearance-label">
+                    <Button
+                        variant={theme === "light" ? "contained" : "outlined"}
+                        startIcon={<LightModeOutlinedIcon />}
+                        aria-pressed={theme === "light"}
+                        disabled={loading}
+                        onClick={() => updateSettings("light", language)}
                     >
-                        <FormControlLabel value={dark} control={<Radio />} label={DARK} />
-                        <FormControlLabel value={light} control={<Radio />} label={LIGHT} />
-                    </RadioGroup>
-                </Box>
-
-                <Box>
-                    <FormLabel sx={inlineStyles} id="demo-radio-buttons-group-label">
-                        {LANG}:
-                    </FormLabel>
-                    <RadioGroup
-                        sx={{ display: "flex", flexDirection: "row" }}
-                        onChange={changeLanguageHandler}
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        value={language}
-                        name="radio-buttons-group"
+                        {lang.LIGHT}
+                    </Button>
+                    <Button
+                        variant={theme === "dark" ? "contained" : "outlined"}
+                        startIcon={<DarkModeOutlinedIcon />}
+                        aria-pressed={theme === "dark"}
+                        disabled={loading}
+                        onClick={() => updateSettings("dark", language)}
                     >
-                        <FormControlLabel value={uaLang} control={<Radio />} label="🇺🇦" />
-                        <FormControlLabel value={enLang} control={<Radio />} label="🇺🇸" />
-                        <FormControlLabel value={deLang} control={<Radio />} label="🇩🇪" />
-                    </RadioGroup>
-                </Box>
+                        {lang.DARK}
+                    </Button>
+                </div>
+            </div>
+            <FormControl className="preference-section" disabled={loading}>
+                <FormLabel id="language-label" className="preference-title">
+                    {lang.LANG}
+                </FormLabel>
+                <p className="muted preference-help">{lang.LANGUAGE_DESCRIPTION}</p>
+                <RadioGroup
+                    aria-labelledby="language-label"
+                    value={language}
+                    name="language"
+                    onChange={(event) => updateSettings(theme, event.target.value as Language)}
+                    className="language-options"
+                >
+                    {languages.map((option) => (
+                        <FormControlLabel
+                            key={option.value}
+                            value={option.value}
+                            control={<Radio size="small" />}
+                            className={`language-option${language === option.value ? " language-option--selected" : ""}`}
+                            label={
+                                <span className="language-label">
+                                    <span>{option.name}</span>
+                                    <span className="language-code">{option.code}</span>
+                                </span>
+                            }
+                        />
+                    ))}
+                </RadioGroup>
             </FormControl>
-        </>
+        </div>
     );
-};
-
-export default RadioButtonsGroup;
+}

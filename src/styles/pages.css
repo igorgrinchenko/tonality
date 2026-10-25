@@ -1,0 +1,741 @@
+.tonality-page,
+.tune-page,
+.presets-page,
+.profile-page {
+    min-width: 0;
+}
+
+.tonality-grid,
+.tune-grid,
+.profile-grid {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.signature-card,
+.result-card,
+.save-key-card,
+.tonality-aside,
+.tune-control-card,
+.preferences-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.tonality-aside {
+    gap: 20px;
+}
+
+.signature-card .section-header {
+    margin-bottom: 4px;
+}
+
+.key-field {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.key-field-label {
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.key-toggle-group.MuiToggleButtonGroup-root {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+}
+
+.key-toggle-group .MuiToggleButton-root {
+    min-width: 0;
+    min-height: 52px;
+    flex: 1;
+    gap: 8px;
+    padding: 10px 8px;
+    overflow-wrap: anywhere;
+}
+
+.accidental-symbol {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.determine-button.MuiButton-root {
+    margin-top: 4px;
+}
+
+.result-card {
+    container-type: inline-size;
+    gap: 16px;
+}
+
+.result-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.result-preview {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    padding: 22px 16px;
+    border-radius: 18px;
+    background: var(--accent-soft);
+    text-align: center;
+}
+
+.result-key {
+    width: 100%;
+    color: var(--accent);
+    font-size: clamp(4rem, 24cqi, 6rem);
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.065em;
+    overflow-wrap: anywhere;
+}
+
+.result-key-long {
+    font-size: clamp(2.25rem, 12cqi, 4.5rem);
+    letter-spacing: -0.045em;
+}
+
+.result-mode {
+    margin: 8px 0 0;
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
+.result-description {
+    max-width: 32ch;
+    margin: 8px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.65;
+}
+
+.save-key-card {
+    gap: 20px;
+}
+
+.reference-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.reference-card > .eyebrow {
+    margin-bottom: 8px;
+}
+
+.reference-card > .muted {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+.fork-illustration {
+    width: clamp(148px, 24vw, 234px);
+    max-width: 100%;
+    aspect-ratio: 1;
+}
+
+.fork-illustration svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.fork-outer-ring {
+    fill: var(--accent-soft);
+}
+
+.fork-inner-ring {
+    stroke: var(--accent);
+    opacity: 0.12;
+}
+
+.fork-shape {
+    stroke: var(--accent);
+    stroke-width: 16px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.fork-tip {
+    fill: var(--accent);
+}
+
+.fork-sound-wave {
+    stroke: var(--accent);
+    stroke-width: 3px;
+    stroke-linecap: round;
+    opacity: 0.2;
+    transition: opacity 160ms ease;
+}
+
+.fork-illustration-playing .fork-sound-wave {
+    opacity: 0.85;
+}
+
+.reference-pitch {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    justify-content: center;
+    gap: 16px;
+}
+
+.pitch-note {
+    color: var(--accent);
+    font-size: 2.25rem;
+    font-weight: 600;
+}
+
+.pitch-frequency {
+    color: var(--text);
+    font-size: clamp(2.75rem, 5vw, 4rem);
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.055em;
+}
+
+.pitch-frequency > span {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+.tune-control-card {
+    align-self: stretch;
+    gap: 24px;
+}
+
+.tone-status {
+    align-self: flex-start;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.tone-status-playing {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
+.tone-play-button.MuiButton-root {
+    min-height: 52px;
+}
+
+.volume-control {
+    min-width: 0;
+}
+
+.volume-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.volume-heading output {
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}
+
+.volume-slider-row {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+.volume-slider-row > svg {
+    flex-shrink: 0;
+}
+
+.volume-help {
+    margin: 8px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.65;
+}
+
+.tune-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+}
+
+.tune-hint > svg {
+    margin-top: 1px;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.tune-hint > p {
+    margin: 0;
+}
+
+.presets-page > .MuiAlert-root {
+    margin-bottom: 20px;
+}
+
+.presets-card {
+    min-width: 0;
+    container-type: inline-size;
+}
+
+.saved-keys-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 4px;
+}
+
+.saved-keys-heading h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.saved-keys-count {
+    display: inline-flex;
+    min-width: 26px;
+    min-height: 26px;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 8px;
+    background: var(--surface-soft);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.preset-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.preset-row {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 40px minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.preset-row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.preset-order {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--surface-soft);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.preset-row-playing .preset-order {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.preset-name {
+    min-width: 0;
+}
+
+.preset-name h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.preset-playing-label {
+    display: block;
+    margin-top: 3px;
+    color: var(--accent);
+    font-size: 0.75rem;
+}
+
+.preset-key {
+    max-width: 100%;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 1.125rem;
+    font-weight: 650;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.preset-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.preset-actions .MuiIconButton-root {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-secondary);
+}
+
+.preset-actions .preset-play-button {
+    color: var(--accent);
+}
+
+.preset-actions .preset-play-button[aria-pressed="true"] {
+    border-color: transparent;
+    background: var(--accent-soft);
+}
+
+.preset-actions .preset-delete-button:hover {
+    border-color: currentColor;
+    color: var(--danger);
+}
+
+.presets-empty {
+    display: flex;
+    min-height: min(410px, 65dvh);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.empty-presets-icon {
+    display: flex;
+    width: 68px;
+    height: 68px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    border-radius: 20px;
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.empty-presets-icon > svg {
+    font-size: 2rem;
+}
+
+.presets-empty h2 {
+    margin: 0;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 600;
+}
+
+.presets-empty p {
+    max-width: 39ch;
+    margin: 0 0 8px;
+    font-size: 0.875rem;
+    line-height: 1.8;
+}
+
+.preset-dialog .MuiDialog-paper {
+    width: min(440px, calc(100% - 32px));
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+    margin: 16px;
+}
+
+.preset-dialog .MuiDialogContent-root {
+    overflow-wrap: anywhere;
+}
+
+.preset-dialog .MuiDialogActions-root {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 24px 24px;
+}
+
+.preset-dialog .MuiDialogActions-root > .MuiButton-root {
+    min-width: 100px;
+    margin: 0;
+}
+
+.dialog-preset-name {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.account-card {
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.account-card .profile-avatar {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.profile-email {
+    max-width: 100%;
+    margin: 0;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.account-status {
+    max-width: 100%;
+}
+
+.account-status > svg {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.account-status-verified {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
+.account-status:not(.account-status-verified) {
+    background: var(--surface-soft);
+    color: var(--warning);
+}
+
+.profile-logout-button.MuiButton-root {
+    margin-top: auto;
+}
+
+.profile-support {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+}
+
+.support-link {
+    display: inline-flex;
+    min-width: 0;
+    min-height: 44px;
+    align-items: center;
+    justify-self: start;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.support-link > svg {
+    flex-shrink: 0;
+}
+
+.profile-meta {
+    display: flex;
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+@container (max-width: 460px) {
+    .preset-row {
+        grid-template-columns: 40px minmax(0, 1fr) auto;
+        gap: 8px 12px;
+    }
+
+    .preset-order {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+    }
+
+    .preset-name {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .preset-key {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: start;
+        padding: 5px 10px;
+        font-size: 1rem;
+    }
+
+    .preset-actions {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+    }
+}
+
+@container (max-width: 360px) {
+    .preset-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .preset-order {
+        display: none;
+    }
+
+    .preset-name,
+    .preset-key {
+        grid-column: 1;
+    }
+
+    .preset-actions {
+        grid-column: 2;
+    }
+}
+
+@media (min-width: 760px) {
+    .tonality-grid {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+
+    .tune-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .profile-grid {
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        align-items: stretch;
+    }
+
+    .profile-support {
+        grid-column: 1 / -1;
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .profile-meta {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 479px) {
+    .tonality-grid,
+    .tune-grid,
+    .profile-grid,
+    .tonality-aside {
+        gap: 16px;
+    }
+
+    .signature-card,
+    .tune-control-card,
+    .preferences-card {
+        gap: 20px;
+    }
+
+    .result-preview {
+        padding: 18px 12px;
+    }
+
+    .reference-pitch {
+        gap: 12px;
+    }
+
+    .volume-slider-row {
+        gap: 12px;
+    }
+
+    .preset-dialog .MuiDialogActions-root {
+        padding: 12px 20px 20px;
+    }
+}
+
+@media (max-height: 480px) and (min-width: 520px) {
+    .tune-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .fork-illustration {
+        width: 138px;
+    }
+
+    .reference-card {
+        gap: 4px;
+    }
+
+    .pitch-frequency {
+        font-size: 2.5rem;
+    }
+
+    .pitch-note {
+        font-size: 1.75rem;
+    }
+
+    .tune-control-card {
+        gap: 16px;
+    }
+
+    .tune-hint {
+        padding-top: 16px;
+    }
+
+    .presets-empty {
+        min-height: 260px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fork-sound-wave {
+        transition: none;
+    }
+}

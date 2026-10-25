@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
-import { DefaultPendingState, DefaultRejectedAction, UserState } from "./interfaces";
+import { DefaultPendingState, DefaultRejectedAction, UserSettings, UserState } from "./interfaces";
 import { signIn, signUp, logOut, getUserData, setUserData, setPresets, deletePresets } from "./thunks";
 import getTranslations, { normalizeLanguage } from "../translations/getTranslations";
 
@@ -15,13 +15,29 @@ const setDefaultPendingState = (state: DefaultPendingState) => {
 const setDefaultRejectedState = (state: UserState, action: DefaultRejectedAction) => {
     state.isLoading = false;
     state.isError = true;
-    state.errorMessage = action.error.message || getTranslations(state.user.language).UNKNOWN_ERROR;
+    const lang = getTranslations(state.user.language);
+    const messages: Record<string, string> = {
+        "auth/invalid-credential": lang.AUTH_INVALID_CREDENTIALS,
+        "auth/user-not-found": lang.AUTH_INVALID_CREDENTIALS,
+        "auth/wrong-password": lang.AUTH_INVALID_CREDENTIALS,
+        "auth/email-already-in-use": lang.AUTH_EMAIL_IN_USE,
+        "auth/weak-password": lang.AUTH_WEAK_PASSWORD,
+        "auth/invalid-email": lang.AUTH_INVALID_EMAIL,
+        "auth/too-many-requests": lang.REQUEST_LIMITED,
+        "auth/network-request-failed": lang.NETWORK_ERROR,
+        unavailable: lang.NETWORK_ERROR,
+    };
+    state.errorMessage = messages[action.error.code || ""] || action.error.message || lang.UNKNOWN_ERROR;
 };
 
 export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
+        setPreferences: (state, action: PayloadAction<Partial<Pick<UserSettings, "theme" | "language">>>) => {
+            if (action.payload.theme) state.user.theme = action.payload.theme;
+            if (action.payload.language) state.user.language = action.payload.language;
+        },
         setIsSignedIn: (state, action) => {
             state.isSignedIn = action.payload;
         },
@@ -112,5 +128,5 @@ export const userSlice = createSlice({
     },
 });
 
-export const { setIsSignedIn, resetError, resetSuccess, setTokenExpTime } = userSlice.actions;
+export const { setIsSignedIn, resetError, resetSuccess, setTokenExpTime, setPreferences } = userSlice.actions;
 export default userSlice.reducer;

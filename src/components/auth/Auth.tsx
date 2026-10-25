@@ -1,40 +1,41 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { Box, Button } from "@mui/material";
-import useStyles from "../../styles/styles";
+import { Button } from "@mui/material";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import MusicNoteRoundedIcon from "@mui/icons-material/MusicNoteRounded";
+import AuthLayout from "./AuthLayout";
 import getTranslations from "../../translations/getTranslations";
-import { user } from "../../redux/store";
-import { isSignedIn } from "../../redux/store";
+import { isSignedIn, user } from "../../redux/store";
 import { tonalityPath, signInPath, signUpPath } from "../../routes/routes";
 
-const Auth: React.FC = () => {
+export default function Auth() {
     const navigate = useNavigate();
-
-    const _isSignedIn: boolean = useSelector(isSignedIn);
+    const signedIn = useSelector(isSignedIn);
     const { language } = useSelector(user);
     const lang = getTranslations(language);
 
-    const { authButtonWrapper, button } = useStyles();
-    const { SIGN_IN, SIGN_UP } = lang;
-
     useEffect(() => {
-        _isSignedIn && navigate(tonalityPath);
-    }, [_isSignedIn]);
-    return (
-        <Box className={authButtonWrapper}>
-            <Link to={signInPath}>
-                <Button className={button} variant="contained">
-                    {SIGN_IN}
-                </Button>
-            </Link>
-            <Link to={signUpPath}>
-                <Button className={button} variant="outlined">
-                    {SIGN_UP}
-                </Button>
-            </Link>
-        </Box>
-    );
-};
+        if (signedIn) {
+            navigate(tonalityPath, { replace: true });
+        }
+    }, [signedIn, navigate]);
 
-export default Auth;
+    return (
+        <AuthLayout title={lang.AUTH_WELCOME_TITLE} description={lang.AUTH_WELCOME_DESCRIPTION} icon={<MusicNoteRoundedIcon />}>
+            <div className="auth-actions">
+                <Button component={Link} to={signInPath} variant="contained" fullWidth endIcon={<ArrowForwardRoundedIcon />}>
+                    {lang.SIGN_IN}
+                </Button>
+                <Button component={Link} to={signUpPath} variant="outlined" fullWidth>
+                    {lang.SIGN_UP}
+                </Button>
+            </div>
+            <p className="auth-security">
+                <LockOutlinedIcon aria-hidden="true" />
+                {lang.SAFE_ACCOUNT}
+            </p>
+        </AuthLayout>
+    );
+}

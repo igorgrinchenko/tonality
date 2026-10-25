@@ -1,32 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
-import AudiotrackIcon from "@mui/icons-material/Audiotrack";
-import useStyles from "../styles/styles";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { useSelector } from "react-redux";
+import { user } from "../redux/store";
+import getTranslations from "../translations/getTranslations";
 
-const Loader: React.FC = () => {
-    const [scale, setScale] = useState<number>(1);
-
-    const inlineStyles = {
-        transition: "all 1.5s ease",
-        transform: `scale(${scale})`,
-    };
-
-    useEffect(() => {
-        setScale(1.5);
-        const interval = setInterval(() => {
-            setScale((prevScale: number) => (prevScale === 1 ? 1.5 : 1));
-        }, 800);
-
-        return () => clearInterval(interval);
-    }, []);
-    const { blur, loader } = useStyles();
+export default function Loader() {
+    const { language } = useSelector(user);
+    const lang = getTranslations(language);
 
     return (
-        <>
-            <Box className={blur}></Box>
-            <AudiotrackIcon className={loader} sx={inlineStyles} />
-        </>
+        <Backdrop open className="loading-backdrop" sx={{ zIndex: (theme) => theme.zIndex.modal + 10 }}>
+            <div className="loading-card" role="status" aria-live="polite">
+                <CircularProgress size={28} />
+                <span>{lang.LOADING}</span>
+            </div>
+        </Backdrop>
     );
-};
-
-export default Loader;
+}

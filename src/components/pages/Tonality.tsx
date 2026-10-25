@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useRef, ChangeEvent } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { setPresets, decodeBase64 } from "../../redux/thunks";
-import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Typography, Button, CircularProgress, TextField } from "@mui/material";
-import IOSSwitch from "../IOsSwitch";
-import useStyles from "../../styles/styles";
-import getTranslations from "../../translations/getTranslations";
-import { CharactersCountOptions } from "../../common/interfaces";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Alert, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
+import StopRoundedIcon from "@mui/icons-material/StopRounded";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import PageHeading from "../PageHeading";
+import { AppDispatch, isLoading, user } from "../../redux/store";
+import { decodeBase64, setPresets } from "../../redux/thunks";
 import { Alteration, Mode } from "../../common/types";
-import { user } from "../../redux/store";
-import { darkTheme, lightTheme } from "../../styles/colors";
+import getTranslations from "../../translations/getTranslations";
+import "../../styles/pages.css";
 import C from "../../audio/major/C.mp3";
 import G from "../../audio/major/G.mp3";
 import D from "../../audio/major/D.mp3";
@@ -22,7 +24,6 @@ import Ab_Gd from "../../audio/major/Ab_Gd.mp3";
 import Eb_Dd from "../../audio/major/Eb_Dd.mp3";
 import Bb_Ad from "../../audio/major/Bb_Ad.mp3";
 import F from "../../audio/major/F.mp3";
-
 import Cm from "../../audio/minor/Cm.mp3";
 import Gm from "../../audio/minor/Gm.mp3";
 import Dm from "../../audio/minor/Dm.mp3";
@@ -36,177 +37,65 @@ import Ebm_Ddm from "../../audio/minor/Ebm_Ddm.mp3";
 import Bbm_Adm from "../../audio/minor/Bbm_Adm.mp3";
 import Fm from "../../audio/minor/Fm.mp3";
 
+const audioPaths: Record<string, string> = {
+    C,
+    G,
+    D,
+    A,
+    E,
+    B,
+    "F#/Gb": Fd_Gb,
+    "Db/C#": Db_Cd,
+    "Ab/G#": Ab_Gd,
+    "Eb/D#": Eb_Dd,
+    "Bb/A#": Bb_Ad,
+    F,
+    Cm,
+    Gm,
+    Dm,
+    Am,
+    Em,
+    Bm,
+    "F#m/Gbm": Fdm_Gbm,
+    "Dbm/C#m": Dbm_Cdm,
+    "Abm/G#m": Abm_Gdm,
+    "Ebm/D#m": Ebm_Ddm,
+    "Bbm/A#m": Bbm_Adm,
+    Fm,
+};
+
+type KeyMode = Exclude<Mode, "">;
+
 const Tonality: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const audioRef = useRef<HTMLAudioElement>(new Audio());
-    const [count, setCount] = useState<string>("");
-    const [tonality, setTonality] = useState<string>("--");
-    const [isDisabledSwitch, setIsDisabledSwitch] = useState<boolean>(true);
-    const [isDisabledDetermineBtn, setIsDisabledDetermineBtn] = useState<boolean>(true);
-    const [isDisabledSavePresetBtn, setIsDisabledSavePresetBtn] = useState<boolean>(true);
-
-    const [isLocalLoader, setIsLocalLoader] = useState<boolean>(false);
-    const [presetName, setPresetName] = useState<string>("");
-
-    const [isFlat, setIsFlat] = useState<boolean>(false);
-    const [isSharp, setIsSharp] = useState<boolean>(false);
-    const [isMinor, setIsMinor] = useState<boolean>(false);
-    const [isMajor, setIsMajor] = useState<boolean>(true);
-
-    const [audioPath, setAudioPath] = useState<string>("");
-    const [audioState, setAudioState] = useState<boolean>(false);
-
-    const { theme, language } = useSelector(user);
+    const { language } = useSelector(user);
+    const busy = useSelector(isLoading);
     const lang = getTranslations(language);
-
-    const inlineStyles = {
-        boxShadow: `0 0 5px ${theme === "dark" ? lightTheme : darkTheme}`,
-    };
-
-    const { tonalityClass, tonalityWrapper, select, tonalitySwitch, tonalitySwitchWrapper, tonalityRow, tonalityDisabledButton, input } = useStyles();
-    const { SELECT_COUNT_OF_ALTERATION, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, MAJOR, MINOR, DETERMINE, FILTERS, OUTPUT, SAVE_PRESET, PLAY, STOP, PRESET_NAME } = lang;
-
-    const options: CharactersCountOptions[] = [
-        { value: 0, label: ZERO },
-        { value: 1, label: ONE },
-        { value: 2, label: TWO },
-        { value: 3, label: THREE },
-        { value: 4, label: FOUR },
-        { value: 5, label: FIVE },
-        { value: 6, label: SIX },
-        { value: 7, label: SEVEN },
-    ];
-
-    const audioPaths = {
-        C: C,
-        G: G,
-        D: D,
-        A: A,
-        E: E,
-        B: B,
-        "F#/Gb": Fd_Gb,
-        "Db/C#": Db_Cd,
-        "Ab/G#": Ab_Gd,
-        "Eb/D#": Eb_Dd,
-        "Bb/A#": Bb_Ad,
-        F: F,
-        Cm: Cm,
-        Gm: Gm,
-        Dm: Dm,
-        Am: Am,
-        Em: Em,
-        Bm: Bm,
-        "F#m/Gbm": Fdm_Gbm,
-        "Dbm/C#m": Dbm_Cdm,
-        "Abm/G#m": Abm_Gdm,
-        "Ebm/D#m": Ebm_Ddm,
-        "Bbm/A#m": Bbm_Adm,
-        Fm: Fm,
-    };
-
-    useEffect(() => setAudioStatus(), [audioPath, audioState]);
-
-    useEffect(() => setAlterationSwitchStatus(), [count]);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const playbackRequest = useRef(0);
+    const [count, setCount] = useState("");
+    const [alteration, setAlteration] = useState<Alteration>("");
+    const [mode, setMode] = useState<KeyMode>("major");
+    const [resultMode, setResultMode] = useState<KeyMode>("major");
+    const [tonality, setTonality] = useState("");
+    const [audioPath, setAudioPath] = useState("");
+    const [audioPlaying, setAudioPlaying] = useState(false);
+    const [audioStarting, setAudioStarting] = useState(false);
+    const [playbackError, setPlaybackError] = useState(false);
+    const [presetName, setPresetName] = useState("");
+    const canDetermine = count !== "" && (count === "0" || alteration !== "");
+    const canSave = Boolean(presetName.trim() && tonality && audioPath) && !busy;
+    const countLabels = [lang.ZERO, lang.ONE, lang.TWO, lang.THREE, lang.FOUR, lang.FIVE, lang.SIX, lang.SEVEN];
 
     useEffect(() => {
-        const audioElement = audioRef.current;
-        if (audioElement) {
-            const handleAudioEnd = () => {
-                setAudioState(false);
-            };
-
-            audioElement.addEventListener("ended", handleAudioEnd);
-
-            return () => {
-                audioElement.removeEventListener("ended", handleAudioEnd);
-            };
-        }
+        const audio = audioRef.current;
+        return () => {
+            playbackRequest.current += 1;
+            audio?.pause();
+        };
     }, []);
 
-    useEffect(() => {
-        if (presetName && tonality !== "--") {
-            setIsDisabledSavePresetBtn(false);
-        } else {
-            setIsDisabledSavePresetBtn(true);
-        }
-    }, [presetName, tonality]);
-
-    useEffect(() => {
-        if (count && (isFlat || isSharp)) {
-            setIsDisabledDetermineBtn(false);
-        } else if (String(count) === "0") {
-            setIsDisabledDetermineBtn(false);
-        } else {
-            setIsDisabledDetermineBtn(true);
-        }
-    }, [count, isFlat, isSharp]);
-
-    const setAudioStatus = (): void => {
-        if (audioState) {
-            audioRef.current.play();
-        } else {
-            audioRef.current.load();
-        }
-    };
-
-    const setIsFlatActive = (): void => {
-        setIsFlat(true);
-        setIsSharp(false);
-
-        if (isFlat && !isSharp) {
-            setIsFlat(false);
-        }
-    };
-
-    const setIsSharpActive = (): void => {
-        setIsFlat(false);
-        setIsSharp(true);
-        if (!isFlat && isSharp) {
-            setIsSharp(false);
-        }
-    };
-
-    const setIsMinorActive = (): void => {
-        setIsMinor(true);
-        setIsMajor(false);
-    };
-
-    const setIsMajorActive = (): void => {
-        setIsMinor(false);
-        setIsMajor(true);
-    };
-
-    const setAlterationSwitchStatus = (): void => {
-        if (count) {
-            setIsDisabledSwitch(false);
-        } else {
-            setIsDisabledSwitch(true);
-            setIsFlat(false);
-            setIsSharp(false);
-        }
-    };
-
-    const setAlteration = () => {
-        if (isFlat) {
-            return "b";
-        } else if (isSharp) {
-            return "#";
-        } else {
-            return "";
-        }
-    };
-
-    const setMode = () => {
-        if (isMajor) {
-            return "major";
-        } else if (isMinor) {
-            return "minor";
-        } else {
-            return "";
-        }
-    };
-
-    const getTonicWithEnharmonics = (alterationCount: number, alteration: Alteration, mode: Mode): void => {
+    const determineKey = () => {
         const circleOfFifths = [
             { note: "C", enharmonic: null },
             { note: "G", enharmonic: null },
@@ -221,137 +110,193 @@ const Tonality: React.FC = () => {
             { note: "Bb", enharmonic: "A#" },
             { note: "F", enharmonic: null },
         ];
-
-        let tonicIndex = 0;
-
-        if (alteration === "b") {
-            tonicIndex -= alterationCount;
-        } else if (alteration === "#") {
-            tonicIndex += alterationCount;
-        }
-
+        let tonicIndex = alteration === "b" ? -Number(count) : alteration === "#" ? Number(count) : 0;
         if (mode === "minor") {
             tonicIndex += 3;
         }
-
         tonicIndex = (tonicIndex + circleOfFifths.length) % circleOfFifths.length;
-
         const selectedNote = circleOfFifths[tonicIndex];
+        const suffix = mode === "minor" ? "m" : "";
+        const result = selectedNote.enharmonic ? `${selectedNote.note}${suffix}/${selectedNote.enharmonic}${suffix}` : `${selectedNote.note}${suffix}`;
 
-        let result = "";
-
-        if (selectedNote.enharmonic) {
-            if (mode === "minor") {
-                result = `${selectedNote.note}m/${selectedNote.enharmonic}m`;
-            } else {
-                result = `${selectedNote.note}/${selectedNote.enharmonic}`;
-            }
-        } else {
-            if (mode === "minor") {
-                result = `${selectedNote.note}m`;
-            } else {
-                result = `${selectedNote.note}`;
-            }
-        }
-
-        Object.keys(audioPaths).forEach((path, index) => {
-            if (result === path) {
-                setAudioPath(Object.values(audioPaths)[index]);
-            }
-        });
-
+        playbackRequest.current += 1;
+        audioRef.current?.pause();
+        setAudioPlaying(false);
+        setAudioStarting(false);
+        setPlaybackError(false);
         setTonality(result);
-        setIsLocalLoader(true);
-        setTimeout(() => setIsLocalLoader(false), 800);
+        setResultMode(mode);
+        setAudioPath(audioPaths[result] || "");
     };
 
-    const handleChange = (event: SelectChangeEvent<string>): void => {
-        setCount(event.target.value);
+    const togglePlayback = async () => {
+        const audio = audioRef.current;
+        if (!audio || !audioPath) {
+            return;
+        }
+        setPlaybackError(false);
+        if (audioPlaying || audioStarting) {
+            playbackRequest.current += 1;
+            audio.pause();
+            audio.currentTime = 0;
+            setAudioPlaying(false);
+            setAudioStarting(false);
+            return;
+        }
+        const request = ++playbackRequest.current;
+        setAudioStarting(true);
+        try {
+            await audio.play();
+            if (request === playbackRequest.current) setAudioPlaying(true);
+        } catch {
+            if (request === playbackRequest.current) {
+                setAudioPlaying(false);
+                setPlaybackError(true);
+            }
+        } finally {
+            if (request === playbackRequest.current) setAudioStarting(false);
+        }
     };
 
-    const handleChangePresetName = (event: ChangeEvent<HTMLInputElement>): void => {
-        setPresetName(event.target.value);
-    };
-
-    const handleSavePreset = (): void => {
-        const encodedUID: string = localStorage.getItem("encodedUID")!;
-        const uid: string = decodeBase64(encodedUID);
-        dispatch(setPresets({ presetName, presetValue: tonality, audioPath, uid }));
+    const savePreset = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const encodedUID = localStorage.getItem("encodedUID");
+        if (!canSave || !encodedUID) {
+            return;
+        }
+        dispatch(setPresets({ presetName: presetName.trim(), presetValue: tonality, audioPath, uid: decodeBase64(encodedUID) }));
     };
 
     return (
-        <Box className={tonalityClass}>
-            <Box className={tonalityWrapper} sx={inlineStyles}>
-                <Typography align="center" variant="h6">
-                    {FILTERS.toUpperCase()}
-                </Typography>
-                <FormControl fullWidth required variant="filled">
-                    <InputLabel id="demo-simple-select-required-label">{SELECT_COUNT_OF_ALTERATION}</InputLabel>
-                    <Select className={select} labelId="demo-simple-select-required-label" id="demo-simple-select-required" value={count} onChange={handleChange}>
-                        {options.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <Box className={tonalityRow}>
-                    <Box className={tonalitySwitchWrapper}>
-                        <Box className={tonalitySwitch}>
-                            <IOSSwitch checked={isFlat} onChange={setIsFlatActive} isDisabledSwitch={isDisabledSwitch} />
-                            <Typography variant="body1">♭</Typography>
-                        </Box>
-                        <Box className={tonalitySwitch}>
-                            <IOSSwitch checked={isSharp} onChange={setIsSharpActive} isDisabledSwitch={isDisabledSwitch} />
-                            <Typography variant="body1">#</Typography>
-                        </Box>
-                    </Box>
-                    <Box className={tonalitySwitchWrapper}>
-                        <Box className={tonalitySwitch}>
-                            <IOSSwitch checked={isMinor} onChange={setIsMinorActive} />
-                            <Typography variant="body1">{MINOR}</Typography>
-                        </Box>
-                        <Box className={tonalitySwitch}>
-                            <IOSSwitch checked={isMajor} onChange={setIsMajorActive} />
-                            <Typography variant="body1">{MAJOR}</Typography>
-                        </Box>
-                    </Box>
-                </Box>
-                <Button
-                    variant="contained"
-                    disabled={isDisabledDetermineBtn}
-                    className={isDisabledDetermineBtn ? tonalityDisabledButton : ""}
-                    onClick={() => getTonicWithEnharmonics(Number(count), setAlteration(), setMode())}
-                >
-                    {DETERMINE}
-                </Button>
-            </Box>
-
-            <Box className={tonalityWrapper} sx={inlineStyles}>
-                <Typography align="center" variant="h6">
-                    {OUTPUT.toUpperCase()}
-                </Typography>
-                <Typography align="center" variant="h3">
-                    {isLocalLoader ? <CircularProgress /> : tonality}
-                </Typography>
-                <audio ref={audioRef}>
-                    <source src={audioPath} type="audio/mp3"></source>
-                </audio>
-                <Button onClick={() => setAudioState(!audioState)} variant="contained" disabled={Boolean(!audioPath)} className={!audioPath ? tonalityDisabledButton : ""}>
-                    {audioState ? STOP : PLAY}
-                </Button>
-            </Box>
-
-            <Box className={tonalityWrapper} sx={inlineStyles}>
-                <Typography align="center" variant="h6">
-                    {SAVE_PRESET.toUpperCase()}
-                </Typography>
-                <TextField fullWidth className={input} id="filled-basic" label={PRESET_NAME} variant="filled" onChange={handleChangePresetName} />
-                <Button variant="contained" disabled={isDisabledSavePresetBtn} className={isDisabledSavePresetBtn ? tonalityDisabledButton : ""} onClick={handleSavePreset}>
-                    {SAVE_PRESET}
-                </Button>
-            </Box>
-        </Box>
+        <div className="page tonality-page">
+            <PageHeading eyebrow={lang.TONALITY} title={lang.TONALITY_TITLE} description={lang.TONALITY_DESCRIPTION} />
+            <div className="tonality-grid">
+                <section className="surface-card signature-card" aria-labelledby="signature-title">
+                    <div className="section-header">
+                        <span className="icon-tile">
+                            <TuneRoundedIcon />
+                        </span>
+                        <div>
+                            <h2 id="signature-title">{lang.FILTERS}</h2>
+                            <p className="muted">{lang.FILTERS_DESCRIPTION}</p>
+                        </div>
+                    </div>
+                    <FormControl fullWidth>
+                        <InputLabel id="accidental-count-label">{lang.SELECT_COUNT_OF_ALTERATION}</InputLabel>
+                        <Select
+                            labelId="accidental-count-label"
+                            id="accidental-count"
+                            label={lang.SELECT_COUNT_OF_ALTERATION}
+                            value={count}
+                            onChange={(event) => {
+                                setCount(event.target.value);
+                                if (event.target.value === "0") {
+                                    setAlteration("");
+                                }
+                            }}
+                        >
+                            {countLabels.map((label, value) => (
+                                <MenuItem key={value} value={String(value)}>
+                                    {value} · {label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <div className="key-field">
+                        <span className="key-field-label" id="accidental-type-label">
+                            {lang.ACCIDENTALS}
+                        </span>
+                        <ToggleButtonGroup
+                            className="key-toggle-group"
+                            exclusive
+                            value={alteration}
+                            disabled={count === "" || count === "0"}
+                            onChange={(_event, value: Alteration | null) => setAlteration(value || "")}
+                            aria-labelledby="accidental-type-label"
+                        >
+                            <ToggleButton value="b" aria-label={lang.FLATS}>
+                                <span className="accidental-symbol" aria-hidden="true">
+                                    ♭
+                                </span>
+                                {lang.FLATS}
+                            </ToggleButton>
+                            <ToggleButton value="#" aria-label={lang.SHARPS}>
+                                <span className="accidental-symbol" aria-hidden="true">
+                                    ♯
+                                </span>
+                                {lang.SHARPS}
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </div>
+                    <div className="key-field">
+                        <span className="key-field-label" id="key-mode-label">
+                            {lang.KEY_MODE}
+                        </span>
+                        <ToggleButtonGroup
+                            className="key-toggle-group"
+                            exclusive
+                            value={mode}
+                            onChange={(_event, value: KeyMode | null) => value && setMode(value)}
+                            aria-labelledby="key-mode-label"
+                        >
+                            <ToggleButton value="major">{lang.MAJOR}</ToggleButton>
+                            <ToggleButton value="minor">{lang.MINOR}</ToggleButton>
+                        </ToggleButtonGroup>
+                    </div>
+                    <Button className="determine-button" fullWidth variant="contained" endIcon={<ArrowForwardRoundedIcon />} disabled={!canDetermine} onClick={determineKey}>
+                        {lang.DETERMINE}
+                    </Button>
+                </section>
+                <div className="tonality-aside">
+                    <section className="surface-card result-card" aria-labelledby="result-title">
+                        <h2 className="result-title" id="result-title">
+                            {lang.RESULT_LABEL}
+                        </h2>
+                        <div className="result-preview" aria-live="polite" aria-atomic="true">
+                            <div className={`result-key${tonality.length > 4 ? " result-key-long" : ""}`}>{tonality || "—"}</div>
+                            <p className="result-mode">{tonality ? (resultMode === "major" ? lang.MAJOR : lang.MINOR) : lang.RESULT_EMPTY_TITLE}</p>
+                            <p className="muted result-description">{tonality ? lang.LISTEN_DESCRIPTION : lang.RESULT_EMPTY_DESCRIPTION}</p>
+                        </div>
+                        <audio ref={audioRef} src={audioPath || undefined} preload="none" onEnded={() => setAudioPlaying(false)} />
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            startIcon={audioStarting ? <CircularProgress size={18} color="inherit" /> : audioPlaying ? <StopRoundedIcon /> : <PlayArrowRoundedIcon />}
+                            disabled={!audioPath}
+                            onClick={togglePlayback}
+                            aria-pressed={audioPlaying || audioStarting}
+                            aria-busy={audioStarting}
+                        >
+                            {audioPlaying || audioStarting ? lang.STOP : lang.PLAY}
+                        </Button>
+                        {playbackError && <Alert severity="error">{lang.PLAYBACK_ERROR}</Alert>}
+                    </section>
+                    <form className="surface-card save-key-card" onSubmit={savePreset}>
+                        <div className="section-header">
+                            <span className="icon-tile">
+                                <BookmarkAddOutlinedIcon />
+                            </span>
+                            <div>
+                                <h2>{lang.SAVE_PRESET}</h2>
+                                <p className="muted">{lang.SAVE_DESCRIPTION}</p>
+                            </div>
+                        </div>
+                        <TextField
+                            fullWidth
+                            id="preset-name"
+                            label={lang.PRESET_NAME}
+                            value={presetName}
+                            onChange={(event) => setPresetName(event.target.value)}
+                            helperText={lang.PRESET_NAME_HINT}
+                            autoComplete="off"
+                        />
+                        <Button fullWidth type="submit" variant="contained" disabled={!canSave} startIcon={<BookmarkAddOutlinedIcon />}>
+                            {lang.SAVE_PRESET}
+                        </Button>
+                    </form>
+                </div>
+            </div>
+        </div>
     );
 };
 

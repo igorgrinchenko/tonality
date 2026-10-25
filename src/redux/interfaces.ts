@@ -29,6 +29,7 @@ export interface DefaultPendingState {
 export interface DefaultRejectedAction {
     error: {
         message?: string;
+        code?: string;
     };
 }
 
@@ -56,7 +57,7 @@ export interface UserSettings {
 }
 
 export interface UserData {
-    theme: string;
+    theme: "light" | "dark";
     language: Language;
     isVerified: boolean;
     uid: string;

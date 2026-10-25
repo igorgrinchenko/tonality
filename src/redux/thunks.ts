@@ -52,7 +52,8 @@ export const signIn = createAsyncThunk<SignInResult, AuthCredentials>("user/sign
         if (settingsSnapshot.exists()) {
             await setDoc(settingsRef, { isVerified: true, language: normalizeLanguage(settingsSnapshot.data()?.language ?? language) }, { merge: true });
         } else {
-            await setDoc(settingsRef, { theme: "dark", language: normalizeLanguage(language), isVerified: true, presets: [] }, { merge: true });
+            const theme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
+            await setDoc(settingsRef, { theme, language: normalizeLanguage(language), isVerified: true, presets: [] }, { merge: true });
         }
 
         localStorage.removeItem("pendingVerificationEmail");
@@ -113,13 +114,15 @@ export const getUserData = createAsyncThunk<UserSettings, IUId>("users/getUserDa
 
         const userData = docSnap.data();
         const language = normalizeLanguage(userData?.language);
+        const theme = userData?.theme === "dark" ? "dark" : "light";
         localStorage.setItem("language", language);
+        localStorage.setItem("theme", theme);
         if (userData && userData.language !== language) {
             await setDoc(docRef, { language }, { merge: true });
         }
 
         return {
-            theme: userData?.theme === "light" ? "light" : "dark",
+            theme,
             language,
             isVerified: userData ? userData.isVerified === true : true,
             presets: Array.isArray(userData?.presets) ? userData.presets : [],
@@ -133,6 +136,7 @@ export const getUserData = createAsyncThunk<UserSettings, IUId>("users/getUserDa
 export const setUserData = createAsyncThunk("users/setUserData", async ({ theme, language, isVerified, uid }: UserData, { dispatch }) => {
     try {
         localStorage.setItem("language", language);
+        localStorage.setItem("theme", theme);
         const docRef = doc(firestore, "userSettings", uid);
         await setDoc(docRef, { theme, language, isVerified }, { merge: true });
         dispatch(getUserData({ uid }));

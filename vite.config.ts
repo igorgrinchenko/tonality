@@ -15,8 +15,8 @@ export default defineConfig({
                 start_url: "./",
                 scope: "./",
                 display: "standalone",
-                theme_color: "#101418",
-                background_color: "#101418",
+                theme_color: "#f7f8fc",
+                background_color: "#f7f8fc",
                 icons: [
                     { src: "favicon.webp", sizes: "192x192", type: "image/webp" },
                     { src: "favicon.webp", sizes: "512x512", type: "image/webp" },
@@ -28,6 +28,41 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        rolldownOptions: {
+            output: {
+                codeSplitting: {
+                    groups: [
+                        {
+                            name: "vendor-react",
+                            test: /node_modules[\\/](?:react(?:-dom|-router|-redux)?|scheduler|redux|@reduxjs|immer|reselect|use-sync-external-store)[\\/]/,
+                            priority: 40,
+                        },
+                        {
+                            name: "vendor-firebase-core",
+                            test: /node_modules[\\/](?:@firebase[\\/](?:app|component|logger|util)|firebase[\\/]app)[\\/]/,
+                            priority: 30,
+                        },
+                        {
+                            name: "vendor-firebase-auth",
+                            test: /node_modules[\\/](?:@firebase|firebase)[\\/]auth[\\/]/,
+                            priority: 20,
+                        },
+                        {
+                            name: "vendor-firestore",
+                            test: /node_modules[\\/](?:@firebase|firebase)[\\/]firestore[\\/]/,
+                            priority: 20,
+                        },
+                        {
+                            name: "vendor-mui",
+                            test: /node_modules[\\/](?:@mui|@emotion|@popperjs)[\\/]/,
+                            priority: 10,
+                        },
+                    ],
+                },
+            },
+        },
+    },
     test: {
         environment: "jsdom",
         setupFiles: "./src/setupTests.ts",

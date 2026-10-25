@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { onAuthStateChanged, reload, User as FirebaseUser } from "firebase/auth";
-import { Box, Container } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import User from "./components/pages/User";
 import Tonality from "./components/pages/Tonality";
 import Tune from "./components/pages/Tune";
@@ -17,24 +17,20 @@ import Auth from "./components/auth/Auth";
 import Toast from "./components/Toast";
 import PrivateRoute from "./routes/PrivateRoute";
 import ErrorBoundary from "./components/ErrorBoundary";
-import useStyles from "./styles/styles";
 import { defaultPath, tonalityPath, tunePath, presetsPath, userPath, authPath, signUpPath, signInPath, verifyEmailPath } from "./routes/routes";
-import { AppDispatch, isLoading, user } from "./redux/store";
+import { AppDispatch, isLoading, isSignedIn, user } from "./redux/store";
 import { setIsSignedIn } from "./redux/slice";
 import { logOut, decodeBase64, getUserData } from "./redux/thunks";
 import { auth } from "./firebase";
-import { darkTheme, lightTheme } from "./styles/colors";
+import { createAppTheme } from "./styles/theme";
 import getTranslations, { getLocaleCode } from "./translations/getTranslations";
 
 const App: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const _isLoading: boolean = useSelector(isLoading);
+    const signedIn = useSelector(isSignedIn);
     const { theme, language } = useSelector(user);
-
-    const { app, container, errorBoundary, footerContainer } = useStyles();
-
-    const inlineStyles = { backgroundColor: theme === "dark" ? darkTheme : lightTheme, color: theme === "dark" ? lightTheme : darkTheme };
-    const inlineStylesFooterContainer = { backgroundColor: theme === "dark" ? darkTheme : lightTheme };
+    const appTheme = useMemo(() => createAppTheme(theme), [theme]);
 
     const lang = getTranslations(language);
 
@@ -105,43 +101,54 @@ const App: React.FC = () => {
         document.documentElement.lang = getLocaleCode(language);
     }, [language]);
 
+    useEffect(() => {
+        document.documentElement.dataset.theme = theme;
+        const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+        if (themeMeta) themeMeta.content = appTheme.palette.background.default;
+    }, [theme, appTheme]);
+
     return (
-        <ErrorBoundary errorBoundary={errorBoundary} errorMessage={ERROR_BOUNDARY_MESSAGE} buttonText={RELOAD} theme={theme}>
-            <Box className={app} sx={inlineStyles}>
-                <Router>
-                    <Container maxWidth="md">
-                        <Header />
-                    </Container>
-                    <Container maxWidth="md" className={container}>
-                        {_isLoading && <Loader />}
+        <ThemeProvider theme={appTheme}>
+            <CssBaseline />
+            <ErrorBoundary errorMessage={ERROR_BOUNDARY_MESSAGE} buttonText={RELOAD}>
+                <div className={`app ${signedIn ? "app--signed" : "app--public"}`}>
+                    <Router>
+                        <div className="app-shell" inert={_isLoading}>
+                            <a className="skip-link" href="#main-content">
+                                {lang.SKIP_TO_CONTENT}
+                            </a>
+                            <Header />
+                            <main id="main-content" tabIndex={-1} className="main-content" aria-busy={_isLoading}>
+                                <Routes>
+                                    <Route
+                                        path={defaultPath}
+                                        element={
+                                            new URLSearchParams(window.location.search).get("verified") === "1" || localStorage.getItem("pendingVerificationEmail") ? (
+                                                <VerifyEmail />
+                                            ) : (
+                                                <Auth />
+                                            )
+                                        }
+                                    />
+                                    <Route path={authPath} element={<Auth />} />
+                                    <Route path={signUpPath} element={<SignUp />} />
+                                    <Route path={signInPath} element={<SignIn />} />
+                                    <Route path={verifyEmailPath} element={<VerifyEmail />} />
+                                    <Route path={tonalityPath} element={<PrivateRoute routeElement={<Tonality />} />} />
+                                    <Route path={tunePath} element={<PrivateRoute routeElement={<Tune />} />} />
+                                    <Route path={presetsPath} element={<PrivateRoute routeElement={<Presets />} />} />
+                                    <Route path={userPath} element={<PrivateRoute routeElement={<User />} />} />
+                                    <Route path="*" element={<Auth />} />
+                                </Routes>
+                            </main>
+                            <Footer />
+                        </div>
                         <Toast />
-                        <Routes>
-                            <Route
-                                path={defaultPath}
-                                element={
-                                    new URLSearchParams(window.location.search).get("verified") === "1" || localStorage.getItem("pendingVerificationEmail") ? (
-                                        <VerifyEmail />
-                                    ) : (
-                                        <Auth />
-                                    )
-                                }
-                            />
-                            <Route path={authPath} element={<Auth />} />
-                            <Route path={signUpPath} element={<SignUp />} />
-                            <Route path={signInPath} element={<SignIn />} />
-                            <Route path={verifyEmailPath} element={<VerifyEmail />} />
-                            <Route path={tonalityPath} element={<PrivateRoute routeElement={<Tonality />} />} />
-                            <Route path={tunePath} element={<PrivateRoute routeElement={<Tune />} />} />
-                            <Route path={presetsPath} element={<PrivateRoute routeElement={<Presets />} />} />
-                            <Route path={userPath} element={<PrivateRoute routeElement={<User />} />} />
-                        </Routes>
-                    </Container>
-                    <Container className={footerContainer} sx={inlineStylesFooterContainer}>
-                        <Footer />
-                    </Container>
-                </Router>
-            </Box>
-        </ErrorBoundary>
+                        {_isLoading && <Loader />}
+                    </Router>
+                </div>
+            </ErrorBoundary>
+        </ThemeProvider>
     );
 };
 

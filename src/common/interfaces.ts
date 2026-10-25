@@ -81,15 +81,75 @@ export interface Translations {
     VERIFICATION_SIGN_IN_TO_RESEND: string;
     VERIFICATION_RESEND_IN: string;
     BACK_TO_SIGN_IN: string;
-}
-
-export interface CharactersCountOptions {
-    value: number;
-    label: string;
-}
-
-export interface TonalitySwitchProps {
-    checked: boolean;
-    onChange: () => void;
-    isDisabledSwitch?: boolean;
+    APP_TAGLINE: string;
+    WORKSPACE: string;
+    NAVIGATION: string;
+    SKIP_TO_CONTENT: string;
+    LOADING: string;
+    CLOSE: string;
+    CANCEL: string;
+    OPEN_PROFILE: string;
+    MUSIC_COMPANION: string;
+    SWITCH_TO_LIGHT: string;
+    SWITCH_TO_DARK: string;
+    APPEARANCE_DESCRIPTION: string;
+    LANGUAGE_DESCRIPTION: string;
+    AUTH_EYEBROW: string;
+    AUTH_STORY_TITLE: string;
+    AUTH_STORY_DESCRIPTION: string;
+    AUTH_WELCOME_TITLE: string;
+    AUTH_WELCOME_DESCRIPTION: string;
+    SIGN_IN_DESCRIPTION: string;
+    SIGN_UP_DESCRIPTION: string;
+    NO_ACCOUNT: string;
+    HAVE_ACCOUNT: string;
+    PASSWORD_HINT: string;
+    SAFE_ACCOUNT: string;
+    FEATURE_KEYS: string;
+    FEATURE_LISTEN: string;
+    FEATURE_SAVE: string;
+    TONALITY_TITLE: string;
+    TONALITY_DESCRIPTION: string;
+    FILTERS_DESCRIPTION: string;
+    ACCIDENTALS: string;
+    FLATS: string;
+    SHARPS: string;
+    KEY_MODE: string;
+    RESULT_LABEL: string;
+    RESULT_EMPTY_TITLE: string;
+    RESULT_EMPTY_DESCRIPTION: string;
+    LISTEN_DESCRIPTION: string;
+    SAVE_DESCRIPTION: string;
+    PRESET_NAME_HINT: string;
+    TUNE_TITLE: string;
+    TUNE_DESCRIPTION: string;
+    REFERENCE_TONE: string;
+    STANDARD_PITCH: string;
+    AUDIO_PLAYING: string;
+    AUDIO_READY: string;
+    TUNE_HINT: string;
+    DEVICE_VOLUME_HINT: string;
+    PRESETS_TITLE: string;
+    PRESETS_DESCRIPTION: string;
+    EMPTY_PRESETS_TITLE: string;
+    EMPTY_PRESETS_DESCRIPTION: string;
+    FIND_A_KEY: string;
+    SAVED_KEYS: string;
+    PRESET_DELETE_TITLE: string;
+    PROFILE_TITLE: string;
+    PROFILE_DESCRIPTION: string;
+    ACCOUNT: string;
+    VERIFIED_EMAIL: string;
+    UNVERIFIED_EMAIL: string;
+    PREFERENCES: string;
+    PREFERENCES_DESCRIPTION: string;
+    SUPPORT: string;
+    SUPPORT_DESCRIPTION: string;
+    PLAYBACK_ERROR: string;
+    AUTH_INVALID_CREDENTIALS: string;
+    AUTH_EMAIL_IN_USE: string;
+    AUTH_WEAK_PASSWORD: string;
+    AUTH_INVALID_EMAIL: string;
+    REQUEST_LIMITED: string;
+    NETWORK_ERROR: string;
 }

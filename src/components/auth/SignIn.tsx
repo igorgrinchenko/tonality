@@ -1,84 +1,107 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { Button, CircularProgress, TextField, IconButton, InputAdornment } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import AuthLayout from "./AuthLayout";
 import { signIn } from "../../redux/thunks";
-import { isSignedIn, AppDispatch, user } from "../../redux/store";
-import { Typography, Button, TextField, IconButton, InputAdornment } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import useStyles from "../../styles/styles";
+import { isSignedIn, isLoading, AppDispatch, user } from "../../redux/store";
 import getTranslations from "../../translations/getTranslations";
-import { tonalityPath, verifyEmailPath } from "../../routes/routes";
+import { tonalityPath, verifyEmailPath, signUpPath } from "../../routes/routes";
 
-const SignIn: React.FC = () => {
+export default function SignIn() {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const _isSignedIn: boolean = useSelector(isSignedIn);
+    const signedIn = useSelector(isSignedIn);
+    const loading = useSelector(isLoading);
     const { language } = useSelector(user);
     const lang = getTranslations(language);
-
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [email, setEmail] = useState<string>("test@test.xxx");
-    const [password, setPassword] = useState<string>("xxxxxx");
-
-    const { input, button, signInWrapper } = useStyles();
-    const { SIGN_IN, LOGIN_TO_YOUR_ACC, EMAIL, PASSWORD, SHOW_PASSWORD, HIDE_PASSWORD } = lang;
+    const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     useEffect(() => {
-        _isSignedIn && navigate(tonalityPath);
-    }, [_isSignedIn]);
+        if (signedIn) {
+            navigate(tonalityPath, { replace: true });
+        }
+    }, [signedIn, navigate]);
 
-    const login = async (event: React.FormEvent<HTMLFormElement>) => {
+    const login = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const result = await dispatch(signIn({ email, password, language }));
+        if (loading) {
+            return;
+        }
+        const result = await dispatch(signIn({ email: email.trim(), password, language }));
         if (signIn.fulfilled.match(result) && result.payload.requiresEmailVerification) {
             navigate(verifyEmailPath, { replace: true });
         }
     };
 
-    const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        setEmail(event.target.value);
-    };
-
-    const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        setPassword(event.target.value);
-    };
-
-    const handleClickShowPassword = (): void => {
-        setShowPassword(!showPassword);
-    };
-
     return (
-        <form className={signInWrapper} onSubmit={login}>
-            <Typography variant="subtitle1" component="span" align="center">
-                {LOGIN_TO_YOUR_ACC}
-            </Typography>
-            <TextField className={input} id="filled-basic" label={EMAIL} variant="filled" onChange={handleEmailChange} required={true} />
-            <TextField
-                className={input}
-                id="filled-password-input"
-                label={PASSWORD}
-                variant="filled"
-                onChange={handlePasswordChange}
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                required={true}
-                slotProps={{
-                    input: {
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton aria-label={showPassword ? HIDE_PASSWORD : SHOW_PASSWORD} onClick={handleClickShowPassword} edge="end">
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    },
-                }}
-            />
-            <Button type="submit" className={button} variant="contained">
-                {SIGN_IN}
-            </Button>
-        </form>
+        <AuthLayout title={lang.LOGIN_TO_YOUR_ACC} description={lang.SIGN_IN_DESCRIPTION} icon={<LoginRoundedIcon />}>
+            <form className="auth-form" onSubmit={login} aria-busy={loading}>
+                <TextField
+                    id="sign-in-email"
+                    name="email"
+                    label={lang.EMAIL}
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    disabled={loading}
+                    required
+                    fullWidth
+                    slotProps={{ htmlInput: { autoCapitalize: "none", autoCorrect: "off", spellCheck: false } }}
+                />
+                <TextField
+                    id="sign-in-password"
+                    name="password"
+                    label={lang.PASSWORD}
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    disabled={loading}
+                    required
+                    fullWidth
+                    slotProps={{
+                        input: {
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        type="button"
+                                        aria-label={showPassword ? lang.HIDE_PASSWORD : lang.SHOW_PASSWORD}
+                                        aria-pressed={showPassword}
+                                        onClick={() => setShowPassword((visible) => !visible)}
+                                        disabled={loading}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        },
+                    }}
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    disabled={loading}
+                    endIcon={loading ? <CircularProgress size={18} color="inherit" /> : <ArrowForwardRoundedIcon />}
+                >
+                    {loading ? lang.LOADING : lang.SIGN_IN}
+                </Button>
+            </form>
+            <p className="auth-alternate">
+                {lang.NO_ACCOUNT}
+                <Link className="text-link" to={signUpPath} aria-disabled={loading} tabIndex={loading ? -1 : undefined} onClick={(event) => loading && event.preventDefault()}>
+                    {lang.SIGN_UP}
+                </Link>
+            </p>
+        </AuthLayout>
     );
-};
-
-export default SignIn;
+}

@@ -1,0 +1,167 @@
+import { createTheme } from "@mui/material/styles";
+
+const palettes = {
+    light: {
+        bg: "#f7f8fc",
+        surface: "#ffffff",
+        soft: "#f3f4f9",
+        raised: "#fafaff",
+        text: "#25253b",
+        secondary: "#6e7084",
+        border: "#e6e7f0",
+        accent: "#6658d9",
+        accentHover: "#5546c4",
+        accentSoft: "#efedfc",
+        accentText: "#5747c2",
+        accentContrast: "#ffffff",
+        success: "#247858",
+        successSoft: "#e8f5ee",
+        warning: "#94601c",
+        error: "#c13f4c",
+        overlay: "rgba(37, 37, 59, 0.28)",
+        shadow: "0 4px 24px rgba(36, 36, 74, 0.035)",
+    },
+    dark: {
+        bg: "#11121c",
+        surface: "#1b1c2a",
+        soft: "#242536",
+        raised: "#202130",
+        text: "#f2f1fa",
+        secondary: "#b5b5cb",
+        border: "#34354b",
+        accent: "#b3a6ff",
+        accentHover: "#c5bbff",
+        accentSoft: "#302a4c",
+        accentText: "#c0b4ff",
+        accentContrast: "#211a3c",
+        success: "#88d7b2",
+        successSoft: "#1e3b34",
+        warning: "#e6bd76",
+        error: "#ff9ba5",
+        overlay: "rgba(0, 0, 0, 0.48)",
+        shadow: "0 4px 24px rgba(0, 0, 0, 0.08)",
+    },
+} as const;
+
+export function createAppTheme(mode: "light" | "dark") {
+    const colors = palettes[mode];
+
+    return createTheme({
+        palette: {
+            mode,
+            primary: { main: colors.accent, dark: colors.accentHover, contrastText: colors.accentContrast },
+            background: { default: colors.bg, paper: colors.surface },
+            text: { primary: colors.text, secondary: colors.secondary },
+            divider: colors.border,
+            success: { main: colors.success },
+            warning: { main: colors.warning },
+            error: { main: colors.error },
+            action: { hover: colors.soft, selected: colors.accentSoft },
+        },
+        shape: { borderRadius: 12 },
+        typography: {
+            fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+            fontSize: 14,
+            h1: { fontWeight: 750, letterSpacing: "-0.04em" },
+            h2: { fontWeight: 700, letterSpacing: "-0.035em" },
+            h3: { fontWeight: 700, letterSpacing: "-0.03em" },
+            h4: { fontWeight: 700, letterSpacing: "-0.03em" },
+            h5: { fontWeight: 700, letterSpacing: "-0.025em" },
+            h6: { fontWeight: 650, letterSpacing: "-0.02em" },
+            body1: { lineHeight: 1.65 },
+            body2: { lineHeight: 1.6 },
+            button: { fontWeight: 600, textTransform: "none", letterSpacing: 0 },
+        },
+        components: {
+            MuiCssBaseline: {
+                styleOverrides: {
+                    ":root": {
+                        colorScheme: mode,
+                        "--bg": colors.bg,
+                        "--surface": colors.surface,
+                        "--surface-soft": colors.soft,
+                        "--surface-raised": colors.raised,
+                        "--text": colors.text,
+                        "--text-secondary": colors.secondary,
+                        "--border": colors.border,
+                        "--accent": colors.accent,
+                        "--accent-hover": colors.accentHover,
+                        "--accent-soft": colors.accentSoft,
+                        "--accent-text": colors.accentText,
+                        "--accent-contrast": colors.accentContrast,
+                        "--success": colors.success,
+                        "--success-soft": colors.successSoft,
+                        "--warning": colors.warning,
+                        "--danger": colors.error,
+                        "--overlay": colors.overlay,
+                        "--shadow-card": colors.shadow,
+                    },
+                    body: { margin: 0, backgroundColor: colors.bg, color: colors.text },
+                    "::selection": { backgroundColor: colors.accentSoft, color: colors.text },
+                },
+            },
+            MuiButton: {
+                defaultProps: { disableElevation: true },
+                styleOverrides: {
+                    root: {
+                        minHeight: 46,
+                        padding: "10px 20px",
+                        borderRadius: 12,
+                        fontSize: 14,
+                        lineHeight: 1.5,
+                        whiteSpace: "normal",
+                        textAlign: "center",
+                        transition: "background-color 160ms ease, border-color 160ms ease, transform 160ms ease",
+                        "&:active": { transform: "translateY(1px)" },
+                        "&.Mui-focusVisible": { outline: `3px solid ${colors.accent}`, outlineOffset: 3 },
+                    },
+                    outlined: { borderColor: colors.border, "&:hover": { borderColor: colors.accent, backgroundColor: colors.accentSoft } },
+                    contained: { "&.Mui-disabled": { backgroundColor: colors.soft, color: colors.secondary } },
+                },
+            },
+            MuiIconButton: {
+                styleOverrides: {
+                    root: { width: 44, height: 44, borderRadius: 12, "&.Mui-focusVisible": { outline: `3px solid ${colors.accent}`, outlineOffset: 2 } },
+                },
+            },
+            MuiTextField: { defaultProps: { variant: "outlined", fullWidth: true } },
+            MuiOutlinedInput: {
+                styleOverrides: {
+                    root: { borderRadius: 12, backgroundColor: colors.surface, "& fieldset": { borderColor: mode === "light" ? "#8e90a6" : "#74758e" } },
+                    input: { padding: "15px 16px", fontSize: 14 },
+                },
+            },
+            MuiFormLabel: { styleOverrides: { root: { fontSize: 14 } } },
+            MuiFormHelperText: { styleOverrides: { root: { marginLeft: 0, marginRight: 0, fontSize: 12, lineHeight: 1.6 } } },
+            MuiPaper: { defaultProps: { elevation: 0 }, styleOverrides: { root: { backgroundImage: "none" } } },
+            MuiDialog: {
+                styleOverrides: {
+                    paper: { borderRadius: 24, border: `1px solid ${colors.border}`, margin: 16, maxHeight: "calc(100dvh - 32px)", width: "calc(100% - 32px)" },
+                },
+            },
+            MuiDialogTitle: { styleOverrides: { root: { padding: "24px 24px 12px", fontSize: 20, fontWeight: 650 } } },
+            MuiDialogContent: { styleOverrides: { root: { padding: "12px 24px", overflowWrap: "anywhere" } } },
+            MuiDialogActions: { styleOverrides: { root: { padding: "16px 24px 24px", gap: 8, flexWrap: "wrap" } } },
+            MuiToggleButton: {
+                styleOverrides: {
+                    root: {
+                        minHeight: 44,
+                        padding: "10px 16px",
+                        borderColor: colors.border,
+                        color: colors.secondary,
+                        textTransform: "none",
+                        fontWeight: 600,
+                        "&.Mui-selected": { backgroundColor: colors.accentSoft, color: colors.accentText, "&:hover": { backgroundColor: colors.accentSoft } },
+                    },
+                },
+            },
+            MuiMenu: {
+                styleOverrides: { paper: { border: `1px solid ${colors.border}`, borderRadius: 16, boxShadow: colors.shadow, maxHeight: "min(360px, calc(100dvh - 32px))" } },
+            },
+            MuiMenuItem: { styleOverrides: { root: { minHeight: 44, fontSize: 14 } } },
+            MuiAlert: { styleOverrides: { root: { borderRadius: 12, fontSize: 13, alignItems: "center", overflowWrap: "anywhere" } } },
+            MuiTooltip: { defaultProps: { arrow: true } },
+            MuiSlider: { styleOverrides: { root: { height: 5 }, thumb: { width: 18, height: 18 } } },
+        },
+    });
+}
