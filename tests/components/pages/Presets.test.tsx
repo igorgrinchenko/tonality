@@ -191,12 +191,12 @@ describe("saved music interactions", () => {
         const interaction = renderPage();
         await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` }));
         await waitFor(() => expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.STOP} Warm-up` })).toBeEnabled());
-        expect(document.querySelector("audio")).toHaveAttribute("src", "/warm-up.mp3");
+        expect(document.querySelector("audio")).toHaveAttribute("src", expect.stringContaining("/major/C.mp3"));
         expect(document.querySelector("audio")).toHaveAttribute("loop");
 
         await playEveningPreset(interaction);
         expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` })).toHaveAttribute("aria-pressed", "false");
-        expect(document.querySelector("audio")).toHaveAttribute("src", "/evening.mp3");
+        expect(document.querySelector("audio")).toHaveAttribute("src", expect.stringContaining("/minor/Am.mp3"));
         await interaction.click(within(presetRow("Evening practice")).getByRole("button", { name: `${en.STOP} Evening practice` }));
 
         expect(within(presetRow("Evening practice")).getByRole("button", { name: `${en.PLAY} Evening practice` })).toHaveAttribute("aria-pressed", "false");
@@ -244,11 +244,30 @@ describe("saved music interactions", () => {
     });
 
     it("keeps deletion available but cannot play a preset without a recording", () => {
+        mockState.user.presets[0].presetValue = "";
         mockState.user.presets[0].audioPath = "";
         renderPage();
 
         expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` })).toBeDisabled();
         expect(within(presetRow("Warm-up")).getByRole("button", { name: `${en.DELETE} Warm-up` })).toBeEnabled();
+    });
+
+    it("uses the current piano recording when an old preset has no saved audio URL", async () => {
+        mockState.user.presets[0].audioPath = "";
+        const interaction = renderPage();
+        await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` }));
+
+        expect(document.querySelector("audio")).toHaveAttribute("src", expect.stringContaining("/major/C.mp3"));
+        expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    });
+
+    it("preserves a saved recording for a key outside the built-in collection", async () => {
+        mockState.user.presets[0].presetValue = "Custom";
+        const interaction = renderPage();
+        await interaction.click(within(presetRow("Warm-up")).getByRole("button", { name: `${en.PLAY} Warm-up` }));
+
+        expect(document.querySelector("audio")).toHaveAttribute("src", "/warm-up.mp3");
+        expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
     });
 
     it("pauses saved music when the user leaves the page", async () => {

@@ -11,58 +11,8 @@ import { AppDispatch, isLoading, user } from "../../redux/store";
 import { decodeBase64, setPresets } from "../../redux/thunks";
 import { Alteration, Mode } from "../../common/types";
 import getTranslations from "../../translations/getTranslations";
+import getTonalityAudio from "../../audio/getTonalityAudio";
 import "../../styles/pages.css";
-import C from "../../audio/major/C.mp3";
-import G from "../../audio/major/G.mp3";
-import D from "../../audio/major/D.mp3";
-import A from "../../audio/major/A.mp3";
-import E from "../../audio/major/E.mp3";
-import B from "../../audio/major/B.mp3";
-import Fd_Gb from "../../audio/major/Fd_Gb.mp3";
-import Db_Cd from "../../audio/major/Db_Cd.mp3";
-import Ab_Gd from "../../audio/major/Ab_Gd.mp3";
-import Eb_Dd from "../../audio/major/Eb_Dd.mp3";
-import Bb_Ad from "../../audio/major/Bb_Ad.mp3";
-import F from "../../audio/major/F.mp3";
-import Cm from "../../audio/minor/Cm.mp3";
-import Gm from "../../audio/minor/Gm.mp3";
-import Dm from "../../audio/minor/Dm.mp3";
-import Am from "../../audio/minor/Am.mp3";
-import Em from "../../audio/minor/Em.mp3";
-import Bm from "../../audio/minor/Bm.mp3";
-import Fdm_Gbm from "../../audio/minor/Fdm_Gbm.mp3";
-import Dbm_Cdm from "../../audio/minor/Dbm_Cdm.mp3";
-import Abm_Gdm from "../../audio/minor/Abm_Gdm.mp3";
-import Ebm_Ddm from "../../audio/minor/Ebm_Ddm.mp3";
-import Bbm_Adm from "../../audio/minor/Bbm_Adm.mp3";
-import Fm from "../../audio/minor/Fm.mp3";
-
-const audioPaths: Record<string, string> = {
-    C,
-    G,
-    D,
-    A,
-    E,
-    B,
-    "F#/Gb": Fd_Gb,
-    "Db/C#": Db_Cd,
-    "Ab/G#": Ab_Gd,
-    "Eb/D#": Eb_Dd,
-    "Bb/A#": Bb_Ad,
-    F,
-    Cm,
-    Gm,
-    Dm,
-    Am,
-    Em,
-    Bm,
-    "F#m/Gbm": Fdm_Gbm,
-    "Dbm/C#m": Dbm_Cdm,
-    "Abm/G#m": Abm_Gdm,
-    "Ebm/D#m": Ebm_Ddm,
-    "Bbm/A#m": Bbm_Adm,
-    Fm,
-};
 
 type KeyMode = Exclude<Mode, "">;
 
@@ -126,7 +76,7 @@ const Tonality: React.FC = () => {
         setPlaybackError(false);
         setTonality(result);
         setResultMode(mode);
-        setAudioPath(audioPaths[result] || "");
+        setAudioPath(getTonalityAudio(result) || "");
     };
 
     const togglePlayback = async () => {

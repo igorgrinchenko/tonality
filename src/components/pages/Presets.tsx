@@ -13,6 +13,7 @@ import { decodeBase64, deletePresets } from "../../redux/thunks";
 import { Preset as IPreset } from "../../redux/interfaces";
 import { tonalityPath } from "../../routes/routes";
 import getTranslations from "../../translations/getTranslations";
+import getTonalityAudio from "../../audio/getTonalityAudio";
 import "../../styles/pages.css";
 
 const Presets: React.FC = () => {
@@ -33,7 +34,8 @@ const Presets: React.FC = () => {
 
     const togglePlayback = async (preset: IPreset, index: number) => {
         const audio = audioRef.current;
-        if (!audio || !preset.audioPath) {
+        const audioPath = getTonalityAudio(preset.presetValue) || preset.audioPath;
+        if (!audio || !audioPath) {
             return;
         }
         setPlaybackError(false);
@@ -44,7 +46,7 @@ const Presets: React.FC = () => {
             return;
         }
         audio.pause();
-        audio.src = preset.audioPath;
+        audio.src = audioPath;
         setActiveIndex(index);
         setLoadingIndex(index);
         try {
@@ -125,7 +127,7 @@ const Presets: React.FC = () => {
                                         className="preset-play-button"
                                         aria-label={`${activeIndex === index ? lang.STOP : lang.PLAY} ${preset.presetName || ""}`}
                                         aria-pressed={activeIndex === index}
-                                        disabled={loadingIndex !== null || !preset.audioPath}
+                                        disabled={loadingIndex !== null || !(getTonalityAudio(preset.presetValue) || preset.audioPath)}
                                         onClick={() => togglePlayback(preset, index)}
                                     >
                                         {loadingIndex === index ? <CircularProgress size={20} /> : activeIndex === index ? <StopRoundedIcon /> : <PlayArrowRoundedIcon />}
