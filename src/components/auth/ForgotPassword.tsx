@@ -34,7 +34,6 @@ export default function ForgotPassword() {
         } catch (requestError) {
             const code = typeof requestError === "object" && requestError !== null && "code" in requestError ? requestError.code : undefined;
             if (code === "auth/user-not-found") {
-                // Keep the response the same for existing and unknown accounts.
                 setSent(true);
             } else if (code === "auth/invalid-email") {
                 setError(lang.AUTH_INVALID_EMAIL);
