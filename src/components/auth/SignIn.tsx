@@ -10,7 +10,7 @@ import AuthLayout from "./AuthLayout";
 import { signIn } from "../../redux/thunks";
 import { isSignedIn, isLoading, AppDispatch, user } from "../../redux/store";
 import getTranslations from "../../translations/getTranslations";
-import { tonalityPath, verifyEmailPath, signUpPath } from "../../routes/routes";
+import { tonalityPath, verifyEmailPath, signUpPath, forgotPasswordPath } from "../../routes/routes";
 
 export default function SignIn() {
     const dispatch = useDispatch<AppDispatch>();
@@ -86,6 +86,11 @@ export default function SignIn() {
                         },
                     }}
                 />
+                <div className="auth-forgot-password">
+                    <Link className="text-link" to={forgotPasswordPath} state={{ email }} aria-disabled={loading} tabIndex={loading ? -1 : undefined} onClick={(event) => loading && event.preventDefault()}>
+                        {lang.FORGOT_PASSWORD}
+                    </Link>
+                </div>
                 <Button
                     type="submit"
                     variant="contained"

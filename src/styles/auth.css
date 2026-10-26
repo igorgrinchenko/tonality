@@ -186,6 +186,12 @@
     font-weight: 600;
 }
 
+.auth-forgot-password {
+    margin-top: -8px;
+    text-align: end;
+    font-size: 0.875rem;
+}
+
 .auth-alternate .text-link[aria-disabled="true"] {
     color: var(--text-secondary);
     pointer-events: none;

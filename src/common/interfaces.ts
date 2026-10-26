@@ -81,6 +81,12 @@ export interface Translations {
     VERIFICATION_SIGN_IN_TO_RESEND: string;
     VERIFICATION_RESEND_IN: string;
     BACK_TO_SIGN_IN: string;
+    FORGOT_PASSWORD: string;
+    FORGOT_PASSWORD_TITLE: string;
+    FORGOT_PASSWORD_DESCRIPTION: string;
+    RESET_PASSWORD: string;
+    PASSWORD_RESET_EMAIL_SENT: string;
+    PASSWORD_RESET_EMAIL_ERROR: string;
     APP_TAGLINE: string;
     WORKSPACE: string;
     NAVIGATION: string;

@@ -6,4 +6,5 @@ export const userPath: string = "/user";
 export const authPath: string = "/auth";
 export const signUpPath: string = "/sign_up";
 export const signInPath: string = "/sign_in";
+export const forgotPasswordPath: string = "/forgot_password";
 export const verifyEmailPath: string = "/verify_email";

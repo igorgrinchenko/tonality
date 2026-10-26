@@ -4,7 +4,7 @@ import App from "../src/App";
 import en from "../src/translations/en";
 import ua from "../src/translations/ua";
 import { createAppTheme } from "../src/styles/theme";
-import { authPath, signInPath, signUpPath, verifyEmailPath, tonalityPath, tunePath, presetsPath, userPath } from "../src/routes/routes";
+import { authPath, signInPath, signUpPath, forgotPasswordPath, verifyEmailPath, tonalityPath, tunePath, presetsPath, userPath } from "../src/routes/routes";
 
 type SessionUser = { uid: string; emailVerified: boolean };
 
@@ -39,6 +39,7 @@ vi.mock("../src/components/Footer", () => ({ default: () => <nav aria-label="App
 vi.mock("../src/components/Toast", () => ({ default: () => null }));
 vi.mock("../src/components/auth/Auth", () => ({ default: () => <h1>Welcome route</h1> }));
 vi.mock("../src/components/auth/SignIn", () => ({ default: () => <h1>Sign-in route</h1> }));
+vi.mock("../src/components/auth/ForgotPassword", () => ({ default: () => <h1>Password recovery route</h1> }));
 vi.mock("../src/components/auth/SignUp", () => ({ default: () => <h1>Registration route</h1> }));
 vi.mock("../src/components/auth/VerifyEmail", () => ({ default: () => <h1>Email verification route</h1> }));
 vi.mock("../src/components/pages/Tonality", () => ({ default: () => <h1>Key finder route</h1> }));
@@ -96,6 +97,7 @@ describe("application routing and shared state", () => {
         ["/", "Welcome route"],
         [authPath, "Welcome route"],
         [signInPath, "Sign-in route"],
+        [forgotPasswordPath, "Password recovery route"],
         [signUpPath, "Registration route"],
         [verifyEmailPath, "Email verification route"],
         ["/unknown-screen", "Welcome route"],

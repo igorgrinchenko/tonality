@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SignUp from "./components/auth/SignUp";
 import SignIn from "./components/auth/SignIn";
+import ForgotPassword from "./components/auth/ForgotPassword";
 import VerifyEmail from "./components/auth/VerifyEmail";
 import Loader from "./components/Loader";
 import Auth from "./components/auth/Auth";
@@ -19,7 +20,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import ErrorBoundary from "./components/ErrorBoundary";
 import InstallDialog, { InstallPromotion } from "./components/InstallApp";
 import InstallProvider from "./pwa/InstallProvider";
-import { defaultPath, tonalityPath, tunePath, presetsPath, userPath, authPath, signUpPath, signInPath, verifyEmailPath } from "./routes/routes";
+import { defaultPath, tonalityPath, tunePath, presetsPath, userPath, authPath, signUpPath, signInPath, forgotPasswordPath, verifyEmailPath } from "./routes/routes";
 import { AppDispatch, isLoading, isSignedIn, user } from "./redux/store";
 import { setIsSignedIn } from "./redux/slice";
 import { logOut, decodeBase64, getUserData } from "./redux/thunks";
@@ -136,6 +137,7 @@ const App: React.FC = () => {
                                         <Route path={authPath} element={<Auth />} />
                                         <Route path={signUpPath} element={<SignUp />} />
                                         <Route path={signInPath} element={<SignIn />} />
+                                        <Route path={forgotPasswordPath} element={<ForgotPassword />} />
                                         <Route path={verifyEmailPath} element={<VerifyEmail />} />
                                         <Route path={tonalityPath} element={<PrivateRoute routeElement={<Tonality />} />} />
                                         <Route path={tunePath} element={<PrivateRoute routeElement={<Tune />} />} />
