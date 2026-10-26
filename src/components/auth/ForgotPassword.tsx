@@ -52,8 +52,16 @@ export default function ForgotPassword() {
 
     return (
         <AuthLayout title={lang.FORGOT_PASSWORD_TITLE} description={lang.FORGOT_PASSWORD_DESCRIPTION} icon={<LockResetRoundedIcon />}>
-            {sent && <Alert className="verification-feedback" severity="success">{lang.PASSWORD_RESET_EMAIL_SENT}</Alert>}
-            {error && <Alert className="verification-feedback" severity="error">{error}</Alert>}
+            {sent && (
+                <Alert className="verification-feedback" severity="success">
+                    {lang.PASSWORD_RESET_EMAIL_SENT}
+                </Alert>
+            )}
+            {error && (
+                <Alert className="verification-feedback" severity="error">
+                    {error}
+                </Alert>
+            )}
             <form className="auth-form" onSubmit={submit} aria-busy={isSending}>
                 <TextField
                     id="forgot-password-email"
@@ -68,12 +76,20 @@ export default function ForgotPassword() {
                     fullWidth
                     slotProps={{ htmlInput: { autoCapitalize: "none", autoCorrect: "off", spellCheck: false } }}
                 />
-                <Button type="submit" variant="contained" fullWidth disabled={isSending} endIcon={isSending ? <CircularProgress size={18} color="inherit" /> : <ArrowForwardRoundedIcon />}>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    disabled={isSending}
+                    endIcon={isSending ? <CircularProgress size={18} color="inherit" /> : <ArrowForwardRoundedIcon />}
+                >
                     {isSending ? lang.LOADING : lang.RESET_PASSWORD}
                 </Button>
             </form>
             <p className="auth-alternate">
-                <Link className="text-link" to={signInPath}>{lang.BACK_TO_SIGN_IN}</Link>
+                <Link className="text-link" to={signInPath}>
+                    {lang.BACK_TO_SIGN_IN}
+                </Link>
             </p>
         </AuthLayout>
     );

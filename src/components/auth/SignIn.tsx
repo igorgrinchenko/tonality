@@ -87,7 +87,14 @@ export default function SignIn() {
                     }}
                 />
                 <div className="auth-forgot-password">
-                    <Link className="text-link" to={forgotPasswordPath} state={{ email }} aria-disabled={loading} tabIndex={loading ? -1 : undefined} onClick={(event) => loading && event.preventDefault()}>
+                    <Link
+                        className="text-link"
+                        to={forgotPasswordPath}
+                        state={{ email }}
+                        aria-disabled={loading}
+                        tabIndex={loading ? -1 : undefined}
+                        onClick={(event) => loading && event.preventDefault()}
+                    >
                         {lang.FORGOT_PASSWORD}
                     </Link>
                 </div>
