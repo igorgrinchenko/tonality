@@ -67,6 +67,11 @@ export interface Translations {
     VOLUME: string;
     DEVELOPER_CREDIT: string;
     VERSION: string;
+    UPDATE_AVAILABLE: string;
+    RELEASE_NOTES_DESCRIPTION: string;
+    RELEASE_NOTES_HEADING: string;
+    RELEASE_NOTES_MINOR_CHANGES: string;
+    RELEASE_NOTES_CLOSE: string;
     VERIFY_EMAIL: string;
     VERIFY_EMAIL_TITLE: string;
     VERIFY_EMAIL_INSTRUCTIONS: string;

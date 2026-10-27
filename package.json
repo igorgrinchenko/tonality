@@ -1,6 +1,6 @@
 {
   "name": "tonality",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "private": true,
   "engines": {
@@ -24,7 +24,8 @@
     "preview": "vite preview --configLoader native",
     "test": "vitest run --configLoader native --pool=threads",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "version:patch": "node scripts/bump-patch-version.mjs"
   },
   "devDependencies": {
     "@testing-library/dom": "10.4.2",

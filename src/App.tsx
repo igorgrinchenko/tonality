@@ -19,6 +19,7 @@ import Toast from "./components/Toast";
 import PrivateRoute from "./routes/PrivateRoute";
 import ErrorBoundary from "./components/ErrorBoundary";
 import InstallDialog, { InstallPromotion } from "./components/InstallApp";
+import ReleaseNotesDialog from "./components/ReleaseNotesDialog";
 import InstallProvider from "./pwa/InstallProvider";
 import { defaultPath, tonalityPath, tunePath, presetsPath, userPath, authPath, signUpPath, signInPath, forgotPasswordPath, verifyEmailPath } from "./routes/routes";
 import { AppDispatch, isLoading, isSignedIn, user } from "./redux/store";
@@ -151,6 +152,7 @@ const App: React.FC = () => {
                             </div>
                             <Toast />
                             <InstallDialog />
+                            <ReleaseNotesDialog />
                             {_isLoading && <Loader />}
                         </Router>
                     </div>

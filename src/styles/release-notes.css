@@ -1,0 +1,255 @@
+.release-notes-dialog .MuiBackdrop-root {
+    background: var(--overlay);
+    backdrop-filter: blur(4px);
+}
+
+.release-notes-dialog .MuiDialog-paper {
+    max-width: 520px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+
+.release-notes-header {
+    position: relative;
+    flex-shrink: 0;
+    padding: 28px 28px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-raised);
+}
+
+.release-notes-brand {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 9px;
+}
+
+.release-notes-brand .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+}
+
+.release-notes-brand .brand-mark svg {
+    width: 23px;
+    height: 23px;
+}
+
+.release-notes-brand .brand-name {
+    font-size: 23px;
+}
+
+.release-notes-staff {
+    position: absolute;
+    top: 16px;
+    right: 78px;
+    width: 130px;
+    height: 56px;
+    pointer-events: none;
+}
+
+.release-notes-staff-lines {
+    stroke: var(--border);
+    stroke-width: 1;
+}
+
+.release-notes-staff-notes {
+    fill: var(--accent);
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: 0.5;
+}
+
+.release-notes-close.MuiIconButton-root {
+    position: absolute;
+    top: 20px;
+    right: 18px;
+    color: var(--text-secondary);
+}
+
+.release-notes-version {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 26px;
+    padding: 5px 10px;
+    gap: 7px;
+    border-radius: 99px;
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+}
+
+.release-notes-version-dot {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.release-notes-header h2 {
+    margin: 14px 0 10px;
+    color: var(--text);
+    font-size: 28px;
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
+.release-notes-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.release-notes-dialog .release-notes-content {
+    min-height: 0;
+    padding: 24px 28px 0;
+}
+
+.release-notes-changes {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--surface-soft);
+}
+
+.release-notes-changes h3 {
+    margin: 0 0 18px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
+
+.release-notes-list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    gap: 18px;
+    list-style: none;
+}
+
+.release-notes-list li {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+}
+
+.release-notes-check {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 9px;
+    background: var(--accent-soft);
+    color: var(--accent-text);
+}
+
+.release-notes-check svg {
+    width: 17px;
+    height: 17px;
+}
+
+.release-notes-list p {
+    margin: 2px 0 0;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.release-notes-dialog .release-notes-actions {
+    flex-shrink: 0;
+    padding: 22px 28px 28px;
+}
+
+.release-notes-actions .MuiButton-root {
+    min-width: 0;
+    min-height: 48px;
+    justify-content: space-between;
+    padding-inline: 18px;
+}
+
+@media (max-width: 479px) {
+    .release-notes-header {
+        padding: 24px 20px 20px;
+    }
+
+    .release-notes-staff {
+        display: none;
+    }
+
+    .release-notes-close.MuiIconButton-root {
+        top: 16px;
+        right: 12px;
+    }
+
+    .release-notes-header h2 {
+        font-size: 26px;
+    }
+
+    .release-notes-dialog .release-notes-content {
+        padding: 20px 20px 0;
+    }
+
+    .release-notes-changes {
+        padding: 16px;
+    }
+
+    .release-notes-list {
+        gap: 16px;
+    }
+
+    .release-notes-dialog .release-notes-actions {
+        padding: 20px;
+    }
+}
+
+@media (max-height: 560px) {
+    .release-notes-header {
+        padding-block: 16px;
+    }
+
+    .release-notes-brand .brand-mark {
+        width: 32px;
+        height: 32px;
+    }
+
+    .release-notes-close.MuiIconButton-root {
+        top: 10px;
+    }
+
+    .release-notes-version {
+        margin-top: 14px;
+    }
+
+    .release-notes-header h2 {
+        margin-top: 10px;
+        font-size: 23px;
+    }
+
+    .release-notes-header p {
+        max-width: none;
+        font-size: 13px;
+    }
+
+    .release-notes-dialog .release-notes-content {
+        padding-top: 16px;
+    }
+
+    .release-notes-dialog .release-notes-actions {
+        padding-block: 16px;
+    }
+}
